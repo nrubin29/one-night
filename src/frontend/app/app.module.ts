@@ -16,6 +16,9 @@ import {DayComponent} from './views/day/day.component';
 import {WerewolfComponent} from './views/roles/werewolf/werewolf.component';
 import {PluralizePipe} from './pipes/pluralize.pipe';
 import {CardComponent} from './components/card/card.component';
+import {PlayerComponent} from './components/player/player.component';
+import {VoteComponent} from './views/vote/vote.component';
+import {EndComponent} from './views/end/end.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import {CardComponent} from './components/card/card.component';
     DayComponent,
     WerewolfComponent,
     PluralizePipe,
-    CardComponent
+    CardComponent,
+    PlayerComponent,
+    VoteComponent,
+    EndComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,4 @@
+<p (click)="tap()">{{player.name}} <span *ngFor="let role of player.tokens" class="badge">{{role.name}}</span></p>
+<div *ngIf="tapped" class="toggle-badges">
+  <a *ngFor="let role of allRoles" (click)="tapRole(role)" class="badge">{{role.name}}</a>
+</div>

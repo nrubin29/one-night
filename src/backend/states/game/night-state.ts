@@ -29,7 +29,8 @@ class NightState extends State<Game> {
       }, 5 * 1000);
     }, () => {
       this.parent.lobby.broadcast({
-        event: 'day'
+        event: 'day',
+        players: this.parent.players.map(p => p.player.name)
       });
 
       this.parent.stateMachine.toState(new DayState(this.parent));

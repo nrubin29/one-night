@@ -7,6 +7,8 @@ import {SocketGuard} from './guards/socket.guard';
 import {NightComponent} from './views/night/night.component';
 import {DayComponent} from './views/day/day.component';
 import {WerewolfComponent} from './views/roles/werewolf/werewolf.component';
+import {VoteComponent} from "./views/vote/vote.component";
+import {EndComponent} from "./views/end/end.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -16,6 +18,8 @@ const routes: Routes = [
   {path: 'night', component: NightComponent, canActivate: [SocketGuard]},
   {path: 'werewolf', component: WerewolfComponent, canActivate: [SocketGuard]}, // TODO: Sub-router for roles.
   {path: 'day', component: DayComponent, canActivate: [SocketGuard]},
+  {path: 'vote', component: VoteComponent, canActivate: [SocketGuard]},
+  {path: 'end', component: EndComponent, canActivate: [SocketGuard]},
 ];
 
 @NgModule({

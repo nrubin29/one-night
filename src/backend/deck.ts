@@ -6,7 +6,7 @@ class Deck {
 
   constructor(cards: Card[]) {
     this.cards = cards;
-    this.roles = cards;
+    this.roles = Array.from(new Set<Card>(cards));
     // TODO: Remove duplicates but maintain order.
   }
 }

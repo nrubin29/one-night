@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import * as io from 'socket.io-client';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
+import Card from "../../../common/card";
 
 @Injectable()
 export class SocketService {
@@ -9,6 +10,7 @@ export class SocketService {
   stream: Observable<any>;
 
   name: string;
+  allRoles: Card[];
   data: any; // Used to store data between states.
 
   constructor(private router: Router) {
@@ -23,6 +25,10 @@ export class SocketService {
     });
 
     this.socket.emit('join', {id: gameID, name: name});
+    this.socket.on('roles', data => {
+      console.log(`Got roles ${JSON.stringify(data)}`);
+      this.allRoles = data as Card[];
+    });
 
     this.stream = new Observable<any>(observer => {
         this.socket.on('event', data => observer.next(data));

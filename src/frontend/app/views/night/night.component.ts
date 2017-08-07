@@ -20,6 +20,7 @@ export class NightComponent implements OnInit {
       }
 
       else if (data.event === 'day') {
+        this.socketService.data = data;
         this.router.navigate(['/day']);
       }
     });
