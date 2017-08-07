@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {SocketService} from "../../services/socket.service";
-import {Router} from "@angular/router";
+import {SocketService} from '../../services/socket.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-night',
@@ -14,14 +14,9 @@ export class NightComponent implements OnInit {
 
   ngOnInit() {
     this.socketService.stream.subscribe(data => {
-      if (data.event === 'view-cards') {
+      if (data.event === 'action-start') {
         this.socketService.data = data;
-        this.router.navigate(['/view-cards']);
-      }
-
-      else if (data.event === 'view-players') {
-        this.socketService.data = data;
-        this.router.navigate(['/view-players']);
+        this.router.navigate(['/' + data.role.toLowerCase()]);
       }
 
       else if (data.event === 'day') {

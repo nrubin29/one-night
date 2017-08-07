@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {SocketService} from "../../services/socket.service";
-import {Router} from "@angular/router";
-import Card from "../../../../common/card";
+import {SocketService} from '../../services/socket.service';
+import {Router} from '@angular/router';
+import Card from '../../../../common/card';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  selector: 'app-card-view',
+  templateUrl: './card-view.component.html',
+  styleUrls: ['./card-view.component.scss']
 })
-export class CardComponent implements OnInit {
+export class CardViewComponent implements OnInit {
   card: Card;
 
   constructor(private socketService: SocketService, private router: Router) {}

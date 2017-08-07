@@ -1,19 +1,22 @@
 import {Injectable} from '@angular/core';
 import * as io from 'socket.io-client';
-import {Observable} from "rxjs/Observable";
-import {Router} from "@angular/router";
+import {Observable} from 'rxjs/Observable';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class SocketService {
   private socket: SocketIOClient.Socket;
   stream: Observable<any>;
 
-  data: any; // Used to store data to be sent between states.
+  name: string;
+  data: any; // Used to store data between states.
 
   constructor(private router: Router) {
   }
 
   connect(gameID: number, name: string) {
+    this.name = name;
+
     this.socket = io('http://localhost:4000');
     this.socket.on('disconnect', () => {
       this.router.navigate(['/home']);
@@ -38,6 +41,7 @@ export class SocketService {
       throw new Error('Socket is not connected!');
     }
 
+    console.log(`Emitting ${JSON.stringify(data)}`);
     this.socket.emit('event', data);
   }
 }

@@ -1,17 +1,13 @@
-import Card from "../common/card";
-import shuffle = require("shuffle-array");
+import Card from '../common/card';
 
 class Deck {
-  roles: Set<Card>;
-  index = 0;
+  cards: Card[]; // Contains all cards, including duplicates.
+  roles: Card[]; // Contains all cards, excluding duplicates. Could be a get function.
 
-  constructor(public cards: Card[]) {
-    this.roles = new Set<Card>(cards);
-    shuffle(this.cards);
-  }
-
-  dealCard(): Card {
-    return this.cards[this.index++];
+  constructor(cards: Card[]) {
+    this.cards = cards;
+    this.roles = cards;
+    // TODO: Remove duplicates but maintain order.
   }
 }
 

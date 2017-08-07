@@ -1,0 +1,2 @@
+<app-view-people *ngIf="players.length > 0" [players]="players"></app-view-people>
+<app-view-cards *ngIf="players.length === 0" [cards]="centerCards" [count]="1"></app-view-cards>

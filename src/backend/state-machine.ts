@@ -1,8 +1,8 @@
-import Game = require("./game");
-import Player = require("./player");
+import Player = require('./player');
 
-export abstract class State {
-  constructor(public game: Game) {}
+export abstract class State<T> {
+  constructor(public parent: T) {
+  }
 
   abstract start();
 
@@ -10,8 +10,8 @@ export abstract class State {
   abstract end();
 }
 
-export class StateMachine {
-  state: State;
+export class StateMachine<T> {
+  state: State<T>;
 
   public handleEvent(player: Player, data: any) {
     if (this.state) {
@@ -19,7 +19,7 @@ export class StateMachine {
     }
   }
 
-  public toState(state: State) {
+  public toState(state: State<T>) {
     if (this.state) {
       this.state.end();
     }

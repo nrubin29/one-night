@@ -1,8 +1,4 @@
-import Card from "../common/card";
-
 class Player {
-  card: Card;
-
   constructor(public socket: SocketIO.Socket, public name: string) {
   }
 

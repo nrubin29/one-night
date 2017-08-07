@@ -1,10 +1,8 @@
-import Team from "./team";
+import Team from './team';
 
 abstract class Card {
-  constructor(public name: string, public team: Team) {
+  constructor(public name: string, public team: Team, public hasNightAction: boolean = false) {
   }
-
-  abstract getNightAction(playerCards: Card[], centerCards: Card[]): any;
 }
 
 export default Card;

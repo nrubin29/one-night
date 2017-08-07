@@ -1,5 +1,4 @@
 <div *ngIf="card">
-  <h1>{{card.name}}</h1>
-  <h2>{{card.team}}</h2>
+  <app-card [card]="card"></app-card>
   <input type="button" (click)="ready()" value="Ready">
 </div>

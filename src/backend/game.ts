@@ -1,51 +1,35 @@
-import Player = require("./player");
-import LobbyState = require("./states/lobby-state");
-import Deck = require("./deck");
-import {StateMachine} from "./state-machine";
-import cards from "../common/cards/cards";
-import Card from "../common/card";
+import {StateMachine} from './state-machine';
+import Card from '../common/card';
+import Lobby = require('./lobby');
+import GameDeck = require('./game-deck');
+import Deck = require('./deck');
+import GamePlayer = require('./game-player');
+import CardState = require('./states/game/card-state');
 
 class Game {
-  id: number;
-  private server: SocketIO.Server;
-  stateMachine: StateMachine;
-
-  players: Player[];
-  deck: Deck;
+  stateMachine: StateMachine<Game>;
+  players: GamePlayer[];
+  deck: GameDeck;
   centerCards: Card[];
 
-  constructor(id: number, server: SocketIO.Server) {
-    this.id = id;
-    this.server = server;
-    this.stateMachine = new StateMachine();
-
-    this.players = [];
-    this.deck = new Deck(cards);
+  constructor(public lobby: Lobby, deck: Deck) {
+    this.stateMachine = new StateMachine<Game>();
+    this.players = this.lobby.players.map(p => new GamePlayer(p));
+    this.deck = new GameDeck(deck);
     this.centerCards = [];
-
-    this.stateMachine.toState(new LobbyState(this));
   }
 
-  broadcast(data: any) {
-    this.server.sockets.in(`${this.id}`).emit('event', data);
-  }
-
-  addPlayer(player: Player) {
-    this.players.push(player);
-
-    player.socket.on('disconnect', () => {
-      // TODO: Use something better than filter here.
-      this.players = this.players.filter(p => p !== player);
+  start() {
+    this.players.forEach(p => {
+      p.card = this.deck.dealCard();
+      p.player.emit({
+        event: 'card',
+        card: p.card
+      });
     });
 
-    player.socket.on('event', data => {
-      this.stateMachine.handleEvent(player, data);
-    });
-
-    this.broadcast({
-      event: 'join',
-      players: this.players.map(player => player.name)
-    });
+    this.centerCards = [this.deck.dealCard(), this.deck.dealCard(), this.deck.dealCard()];
+    this.stateMachine.toState(new CardState(this));
   }
 }
 
