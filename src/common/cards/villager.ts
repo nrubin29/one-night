@@ -1,4 +1,13 @@
 import Card from "../card";
-import Team from "../team";
 
-export default new Card('Villager', 'Villagers');
+class Villager extends Card {
+  constructor() {
+    super('Villager', 'Villagers');
+  }
+
+  getNightAction(playerCards: Card[], centerCards: Card[]) {
+    return null;
+  }
+}
+
+export default new Villager();

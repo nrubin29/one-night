@@ -1,20 +1,27 @@
 import Player = require("./player");
-import {StateMachine} from "./state-machine";
 import LobbyState = require("./states/lobby-state");
+import Deck = require("./deck");
+import {StateMachine} from "./state-machine";
+import cards from "../common/cards/cards";
+import Card from "../common/card";
 
 class Game {
   id: number;
   private server: SocketIO.Server;
-
   stateMachine: StateMachine;
+
   players: Player[];
+  deck: Deck;
+  centerCards: Card[];
 
   constructor(id: number, server: SocketIO.Server) {
     this.id = id;
     this.server = server;
-
     this.stateMachine = new StateMachine();
+
     this.players = [];
+    this.deck = new Deck(cards);
+    this.centerCards = [];
 
     this.stateMachine.toState(new LobbyState(this));
   }
@@ -32,7 +39,7 @@ class Game {
     });
 
     player.socket.on('event', data => {
-      this.stateMachine.handleEvent(data);
+      this.stateMachine.handleEvent(player, data);
     });
 
     this.broadcast({

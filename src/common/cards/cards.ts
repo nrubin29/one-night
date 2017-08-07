@@ -3,8 +3,8 @@ import Villager from "./villager";
 import Card from "../card";
 
 const cards: Card[] = [
-    Werewolf,
-    Villager
+  Werewolf,
+  Villager
 ];
 
 export default cards;

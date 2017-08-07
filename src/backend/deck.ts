@@ -2,15 +2,17 @@ import Card from "../common/card";
 import shuffle = require("shuffle-array");
 
 class Deck {
-    index = 0;
+  roles: Set<Card>;
+  index = 0;
 
-    constructor(public cards: Card[]) {
-        shuffle(this.cards);
-    }
+  constructor(public cards: Card[]) {
+    this.roles = new Set<Card>(cards);
+    shuffle(this.cards);
+  }
 
-    dealCard(): Card {
-        return this.cards[this.index++];
-    }
+  dealCard(): Card {
+    return this.cards[this.index++];
+  }
 }
 
 export = Deck;

@@ -1,13 +1,13 @@
 import Card from "../common/card";
 
 class Player {
-  socket: SocketIO.Socket;
-  name: string;
   card: Card;
 
-  constructor(socket: SocketIO.Socket, name: string) {
-    this.socket = socket;
-    this.name = name;
+  constructor(public socket: SocketIO.Socket, public name: string) {
+  }
+
+  emit(data: any) {
+    this.socket.emit('event', data);
   }
 }
 

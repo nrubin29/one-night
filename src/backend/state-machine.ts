@@ -1,19 +1,21 @@
 import Game = require("./game");
+import Player = require("./player");
 
 export abstract class State {
   constructor(public game: Game) {}
 
   abstract start();
-  abstract handleEvent(data: any);
+
+  abstract handleEvent(player: Player, data: any);
   abstract end();
 }
 
 export class StateMachine {
   state: State;
 
-  public handleEvent(data: any) {
+  public handleEvent(player: Player, data: any) {
     if (this.state) {
-      this.state.handleEvent(data);
+      this.state.handleEvent(player, data);
     }
   }
 

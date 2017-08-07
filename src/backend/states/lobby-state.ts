@@ -1,27 +1,28 @@
 import {State} from "../state-machine";
-import Deck = require("../deck");
-import cards from '../../common/cards/cards';
+import Player = require("../player");
+import CardState = require("./card-state");
 
 class LobbyState extends State {
-  private deck: Deck;
-
   start() {
-    this.deck = new Deck(cards);
+
   }
 
-  handleEvent(data: any) {
+  handleEvent(player: Player, data: any) {
     if (data.event === 'start') {
       this.game.broadcast({
         event: 'start'
       });
 
       this.game.players.forEach(player => {
-        player.card = this.deck.dealCard();
-        player.socket.emit('event', {
+        player.card = this.game.deck.dealCard();
+        player.emit({
           event: 'card',
           card: player.card
         });
       });
+
+      this.game.centerCards = [this.game.deck.dealCard(), this.game.deck.dealCard(), this.game.deck.dealCard()];
+      this.game.stateMachine.toState(new CardState(this.game));
     }
   }
 

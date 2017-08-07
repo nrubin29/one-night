@@ -1,3 +1,5 @@
+$light-gray: #f0f0f0;
+
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
 
 * {
@@ -16,4 +18,38 @@
   &.center {
     text-align: center;
   }
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  padding: 1em;
+
+  &:nth-child(2n) {
+    background: $light-gray;
+  }
+}
+
+.element {
+  width: 100%;
+  margin-bottom: 0.5em;
+
+  label, input {
+    display: block;
+  }
+}
+
+input[type="text"], input[type="number"] {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1em;
+}
+
+input[type="button"], input[type="submit"] {
+  width: 100%;
+  padding: 1em;
+  background: $light-gray;
+  border: none;
 }
