@@ -29,7 +29,6 @@ class Lobby {
 
   addPlayer(player: Player) {
     this.players.push(player);
-    console.log(`Going to emit roles: ${this.deck.roles}`);
     player.socket.emit('roles', this.deck.roles);
 
     player.socket.on('disconnect', () => {

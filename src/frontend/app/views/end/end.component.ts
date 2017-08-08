@@ -17,7 +17,10 @@ export class EndComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(JSON.stringify(this.socketService.data));
     this.playerData = this.socketService.data.players as EndPlayerData[];
+    console.log(JSON.stringify(this.playerData));
+
     this.socketService.stream.subscribe(data => {
       if (data.event === 'lobby') {
         this.router.navigate(['/lobby']);

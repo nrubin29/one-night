@@ -19,6 +19,7 @@ export class VoteComponent implements OnInit {
     this.players = this.socketService.data.players as Player[];
     this.socketService.stream.subscribe(data => {
       if (data.event === 'end') {
+        this.socketService.data = data;
         this.router.navigate(['/end']);
       }
     });

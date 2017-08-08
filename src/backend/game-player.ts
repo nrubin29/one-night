@@ -16,7 +16,7 @@ class GamePlayer {
   }
 
   set card(card: Card) {
-    if (this.originalCard === null) {
+    if (!this.originalCard) {
       this.originalCard = card;
     }
 

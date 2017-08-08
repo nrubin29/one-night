@@ -1,3 +1,7 @@
-<p>
-  end works!
-</p>
+<div *ngFor="let pData of playerData">
+    <p>{{pData.name}}</p>
+    <p>{{pData.role.name}}</p>
+    <p>{{pData.originalRole.name}}</p>
+    <p>{{pData.killed}}</p>
+    <p>{{pData.votedBy}}</p>
+</div>

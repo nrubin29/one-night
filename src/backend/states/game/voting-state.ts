@@ -7,11 +7,6 @@ import GamePlayer = require('../../game-player');
 class VotingState extends State<Game> {
   start() {
     setTimeout(() => {
-      // TODO: Calculate end data.
-      const data = {
-        players: []
-      };
-
       const playerVotes: { player: GamePlayer, votes: number }[] = this.parent.players.map(p => ({
         player: p,
         votes: 0
@@ -28,21 +23,23 @@ class VotingState extends State<Game> {
       const maxVotes = Math.max(...playerVotes.map(pV => pV.votes));
       const killedPlayers = playerVotes.filter(pV => pV.votes === maxVotes);
 
-      // TODO: Calculate winner.
+      // TODO: Calculate winning team.
+
+      const players = [];
 
       this.parent.players.forEach(p => {
-        data.players.push({
+        players.push({
           name: p.player.name,
           role: p.card,
           originalRole: p.originalCard,
           killed: killedPlayers.findIndex(pV => pV.player === p) !== -1,
-          votedBy: this.parent.players.filter(other => other !== p && other.vote === p)
+          votedBy: this.parent.players.filter(other => other !== p && other.vote === p).map(other => other.player.name)
         });
       });
 
       this.parent.lobby.broadcast({
         event: 'end',
-        data: data
+        players: players
       });
 
       this.parent.stateMachine.toState(new EndState(this.parent));

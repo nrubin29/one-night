@@ -5,7 +5,6 @@ import LobbyState = require('../lobby/lobby-state');
 
 class EndState extends State<Game> {
   start() {
-
   }
 
   handleEvent(player: Player, data: any) {
