@@ -1,4 +1,7 @@
 import Werewolf from './werewolf';
+import Minion from './minion';
+import Mason from './mason';
+import ApprenticeSeer from './apprentice-seer';
 import Villager from './villager';
 import Card from '../card';
 
@@ -6,6 +9,9 @@ class Cards {
   static getAllRoles(): Card[] {
     return [
       Werewolf,
+      Minion,
+      Mason,
+      ApprenticeSeer,
       Villager
     ];
   }
@@ -13,12 +19,16 @@ class Cards {
   static getAllCards(): Card[] {
     return [
       Werewolf,
-      Villager,
       Werewolf,
+      Minion,
+      Mason,
+      Mason,
+      ApprenticeSeer,
+      Villager,
       Villager,
       Villager
     ];
   }
 }
 
-export = Cards;
+export default Cards;

@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import Card from '../../../../common/card';
-import {CardListener} from './card-listener';
+import { Component, Input, OnInit } from '@angular/core';
+import { CardListener } from './card-listener';
+import CardHolder from '../../../../common/card-holder';
 
 @Component({
   selector: 'app-card',
@@ -8,13 +8,10 @@ import {CardListener} from './card-listener';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
-  @Input() card: Card;
+  @Input() card: CardHolder;
   @Input() listener?: CardListener;
   @Input() index?: number;
   visible = false;
-
-  constructor() {
-  }
 
   ngOnInit() {
   }

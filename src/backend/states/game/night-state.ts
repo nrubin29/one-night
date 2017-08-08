@@ -2,42 +2,35 @@ import async = require('async');
 import Player = require('../../player');
 import DayState = require('./day-state');
 import Game = require('../../game');
-import {State} from '../../state-machine';
+import { State } from '../../state-machine';
+import ActionStartPacket from '../../../common/packets/action-start.packet';
+import StringPacket from '../../../common/packets/string.packet';
+import Packet from '../../../common/packets/packet';
 
 class NightState extends State<Game> {
   start() {
-    async.each(this.parent.lobby.deck.roles.filter(role => role.hasNightAction), (role, done) => {
-      const data = {
-        event: 'action-start',
-        role: role.name,
-        players: this.parent.players.map(player => ({name: player.player.name, role: player.card.name})),
-        centerCards: this.parent.centerCards
-      };
+    this.owner.lobby.broadcast(new StringPacket('ready'));
 
-      this.parent.players.filter(p => p.card.name === role.name).forEach(p => {
-        p.player.emit(data);
+    async.eachSeries(this.owner.lobby.deck.roles.filter(role => role.hasNightAction), (role, done) => {
+      const packet = new ActionStartPacket(role, this.owner.players.map(p => p.cardHolder), this.owner.centerCards);
+
+      this.owner.players.filter(p => p.cardHolder.card.name === role.name).forEach(p => {
+        p.player.emit(packet);
       });
 
       setTimeout(() => {
-        this.parent.players.forEach(p => {
-          p.player.emit({
-            event: 'action-end'
-          });
+        this.owner.players.forEach(p => {
+          p.player.emit(new StringPacket('action-end'));
         });
 
         done();
       }, 5 * 1000);
     }, () => {
-      this.parent.lobby.broadcast({
-        event: 'day',
-        players: this.parent.players.map(p => p.player.name)
-      });
-
-      this.parent.stateMachine.toState(new DayState(this.parent));
+      this.owner.stateMachine.toState(new DayState(this.owner));
     });
   }
 
-  handleEvent(player: Player, data: any) {
+  handlePacket(player: Player, packet: Packet) {
     // TODO: Handle the player responses.
   }
 

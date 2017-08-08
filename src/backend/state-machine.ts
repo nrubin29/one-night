@@ -1,21 +1,22 @@
 import Player = require('./player');
+import Packet from '../common/packets/packet';
 
 export abstract class State<T> {
-  constructor(public parent: T) {
+  constructor(public owner: T) {
   }
 
   abstract start();
 
-  abstract handleEvent(player: Player, data: any);
+  abstract handlePacket(player: Player, packet: Packet);
   abstract end();
 }
 
 export class StateMachine<T> {
   state: State<T>;
 
-  public handleEvent(player: Player, data: any) {
+  public handlePacket(player: Player, packet: Packet) {
     if (this.state) {
-      this.state.handleEvent(player, data);
+      this.state.handlePacket(player, packet);
     }
   }
 

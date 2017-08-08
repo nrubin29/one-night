@@ -1,5 +1,5 @@
 <div *ngIf="visible">
-  <h1>{{card.name}}</h1>
-  <h2>{{card.team}}</h2>
+  <h1>{{card.card.name}}</h1>
+  <h2>{{card.card.team}}</h2>
 </div>
-<input type="button" (click)="flip()" value="Flip">
+<input type="button" (click)="flip()" [value]="card.name">

@@ -1,20 +1,24 @@
-import {State} from '../../state-machine';
+import { State } from '../../state-machine';
+import Cards from '../../../common/cards/cards';
+import Packet from '../../../common/packets/packet';
+import StringPacket from '../../../common/packets/string.packet';
 import Player = require('../../player');
 import Lobby = require('../../lobby');
 import Game = require('../../game');
 import Deck = require('../../deck');
-import Cards = require('../../../common/cards/cards');
 
 class GameState extends State<Lobby> {
   private game: Game;
 
   start() {
-    this.game = new Game(this.parent, new Deck(Cards.getAllCards()));
+    this.owner.broadcast(new StringPacket('start'));
+
+    this.game = new Game(this.owner, new Deck(Cards.getAllCards()));
     this.game.start();
   }
 
-  handleEvent(player: Player, data: any) {
-    this.game.stateMachine.handleEvent(player, data);
+  handlePacket(player: Player, packet: Packet) {
+    this.game.stateMachine.handlePacket(player, packet);
   }
 
   end() {

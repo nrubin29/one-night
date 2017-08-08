@@ -1,7 +1,10 @@
-<div *ngFor="let pData of playerData">
-    <p>{{pData.name}}</p>
-    <p>{{pData.role.name}}</p>
-    <p>{{pData.originalRole.name}}</p>
-    <p>{{pData.killed}}</p>
-    <p>{{pData.votedBy}}</p>
-</div>
+<ul>
+  <li *ngFor="let pData of playerData">
+    <p><span *ngIf="pData.killed" style="color: red">X </span>{{pData.player.name}} <span class="badge">{{pData.player.card.name}}</span>
+      &rarr; <span class="badge">{{pData.player.originalCard.name}}</span></p>
+    <div class="voted-for">
+      <p *ngFor="let voter of pData.votedBy">&#x021AA; {{voter.name}}</p>
+    </div>
+  </li>
+</ul>
+<input type="button" (click)="tap()" value="Lobby">

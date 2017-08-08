@@ -1,40 +1,51 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import {Observable} from 'rxjs/Observable';
-import {Router} from '@angular/router';
-import Card from "../../../common/card";
+import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
+import Card from '../../../common/card';
+import Packet from '../../../common/packets/packet';
+import RolesPacket from '../../../common/packets/roles.packet';
+import JoinLobbyPacket from '../../../common/packets/join-game.packet';
 
 @Injectable()
 export class SocketService {
   private socket: SocketIOClient.Socket;
-  stream: Observable<any>;
+  stream: Observable<Packet>;
 
   name: string;
   allRoles: Card[];
-  data: any; // Used to store data between states.
+  lastPacket: Packet; // Used to store a packet between states.
 
   constructor(private router: Router) {
   }
 
-  connect(gameID: number, name: string) {
+  connect(gameID: number, name: string): Promise<void> {
     this.name = name;
 
-    this.socket = io('http://localhost:4000');
-    this.socket.on('disconnect', () => {
-      this.router.navigate(['/home']);
-    });
+    return new Promise<void>((resolve, reject) => {
+      this.socket = io('http://localhost:4000');
+      this.socket.on('disconnect', () => {
+        this.router.navigate(['/home']);
+      });
+      this.socket.on('connect', () => {
+        this.stream = new Observable<Packet>(observer => {
+          this.socket.on('packet', packet => observer.next(packet as Packet));
+          // return () => {
+          //     this.socket.off('event');
+          // }
+        });
 
-    this.socket.emit('join', {id: gameID, name: name});
-    this.socket.on('roles', data => {
-      console.log(`Got roles ${JSON.stringify(data)}`);
-      this.allRoles = data as Card[];
-    });
+        this.stream.subscribe(packet => {
+          if (packet.name === 'roles') {
+            const rolesPacket = packet as RolesPacket;
+            this.allRoles = rolesPacket.roles;
+          }
+        });
 
-    this.stream = new Observable<any>(observer => {
-        this.socket.on('event', data => observer.next(data));
-        // return () => {
-        //     this.socket.off('event');
-        // }
+        this.emit(new JoinLobbyPacket(gameID, name));
+
+        resolve();
+      });
     });
   }
 
@@ -42,12 +53,12 @@ export class SocketService {
     return this.socket && this.socket.connected;
   }
 
-  emit(data: any) {
-    if (!this.socket.connected) {
+  emit(packet: Packet) {
+    if (!this.isConnected()) {
       throw new Error('Socket is not connected!');
     }
 
-    console.log(`Emitting ${JSON.stringify(data)}`);
-    this.socket.emit('event', data);
+    console.log(`Emitting packet ${JSON.stringify(packet)}`);
+    this.socket.emit('packet', packet);
   }
 }

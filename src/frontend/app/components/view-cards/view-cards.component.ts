@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import Card from '../../../../common/card';
-import {CardListener} from '../card/card-listener';
+import { Component, Input, OnInit } from '@angular/core';
+import { CardListener } from '../card/card-listener';
+import CardHolder from "../../../../common/card-holder";
 
 @Component({
   selector: 'app-view-cards',
@@ -8,7 +8,7 @@ import {CardListener} from '../card/card-listener';
   styleUrls: ['./view-cards.component.scss']
 })
 export class ViewCardsComponent implements OnInit, CardListener {
-  @Input() cards: Card[];
+  @Input() cards: CardHolder[];
   @Input() count: number;
   private flippedIndices: number[];
   listener: CardListener;

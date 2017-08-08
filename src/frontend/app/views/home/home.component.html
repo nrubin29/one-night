@@ -1,5 +1,5 @@
-<p>Enter your name and game ID to join.</p>
-<form (submit)="join()">
+<p>Enter your name and lobby ID to join.</p>
+<form (submit)="join()" onsubmit="return false;">
     <div class="element">
         <label for="name">Name</label>
       <input type="text" name="name" id="name" [(ngModel)]="name">
@@ -12,3 +12,6 @@
         <input type="submit" value="Join">
     </div>
 </form>
+<hr>
+<p>Create a new lobby.</p>
+<input type="button" (click)="create()" value="Set Up">

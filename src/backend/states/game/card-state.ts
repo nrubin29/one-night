@@ -1,23 +1,25 @@
-import {State} from '../../state-machine';
+import { State } from '../../state-machine';
+import Packet from "../../../common/packets/packet";
 import Player = require('../../player');
 import NightState = require('./night-state');
 import Game = require('../../game');
 
 class CardState extends State<Game> {
-  private ready: number;
+  private ready: Player[];
 
   start() {
-    this.ready = 0;
+    this.ready = [];
   }
 
-  handleEvent(player: Player, data: any) {
-    if (data.event === 'ready') {
-      if (++this.ready === this.parent.lobby.players.length) {
-        this.parent.lobby.broadcast({
-          event: 'ready'
-        });
+  // TODO: Ready needs to be an array of players so that one person can't click the button a bunch of times.
+  handlePacket(player: Player, packet: Packet) {
+    if (packet.name === 'ready') {
+      if (this.ready.indexOf(player) === -1) {
+        this.ready.push(player);
+      }
 
-        this.parent.stateMachine.toState(new NightState(this.parent));
+      if (this.ready.length >= this.owner.lobby.players.length) {
+        this.owner.stateMachine.toState(new NightState(this.owner));
       }
     }
   }

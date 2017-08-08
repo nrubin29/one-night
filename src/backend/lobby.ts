@@ -1,8 +1,11 @@
-import {StateMachine} from './state-machine';
+import { StateMachine } from './state-machine';
+import Packet from '../common/packets/packet';
+import JoinPacket from '../common/packets/join.packet';
+import RolesPacket from '../common/packets/roles.packet';
+import Card from '../common/card';
 import Deck = require('./deck');
 import Player = require('./player');
 import LobbyState = require('./states/lobby/lobby-state');
-import Cards = require('../common/cards/cards');
 
 class Lobby {
   id: number;
@@ -12,39 +15,36 @@ class Lobby {
   players: Player[];
   deck: Deck;
 
-  constructor(id: number, server: SocketIO.Server) {
+  constructor(id: number, cards: Card[], server: SocketIO.Server) {
     this.id = id;
     this.server = server;
     this.stateMachine = new StateMachine<Lobby>();
 
     this.players = [];
-    this.deck = new Deck(Cards.getAllCards());
+    this.deck = new Deck(cards);
 
     this.stateMachine.toState(new LobbyState(this));
   }
 
-  broadcast(data: any) {
-    this.server.sockets.in(`${this.id}`).emit('event', data);
+  broadcast(packet: Packet) {
+    this.server.sockets.in(`${this.id}`).emit('packet', packet);
   }
 
   addPlayer(player: Player) {
     this.players.push(player);
-    player.socket.emit('roles', this.deck.roles);
 
     player.socket.on('disconnect', () => {
       // TODO: Use something better than filter here...maybe
       this.players = this.players.filter(p => p !== player);
     });
 
-    player.socket.on('event', data => {
-      console.log(`Player event ${JSON.stringify(data)}`);
-      this.stateMachine.handleEvent(player, data);
+    player.socket.on('packet', packet => {
+      console.log(`Player packet ${JSON.stringify(packet)}`);
+      this.stateMachine.handlePacket(player, packet);
     });
 
-    this.broadcast({
-      event: 'join',
-      players: this.players.map(p => p.name)
-    });
+    player.emit(new RolesPacket(this.deck.roles));
+    this.broadcast(new JoinPacket(this.players.map(p => p.name)));
   }
 }
 

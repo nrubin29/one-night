@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import CardHolder from '../../../../common/card-holder';
 
 @Component({
   selector: 'app-view-people',
@@ -6,7 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./view-players.component.scss']
 })
 export class ViewPlayersComponent implements OnInit {
-  @Input() players: string[];
+  @Input() players: CardHolder[];
 
   constructor() {
   }

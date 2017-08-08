@@ -1,20 +1,18 @@
-import {State} from '../../state-machine';
+import { State } from '../../state-machine';
+import Packet from '../../../common/packets/packet';
+import StringPacket from '../../../common/packets/string.packet';
 import Player = require('../../player');
 import Lobby = require('../../lobby');
 import GameState = require('./game-state');
 
 class LobbyState extends State<Lobby> {
   start() {
-
+    this.owner.broadcast(new StringPacket('lobby'));
   }
 
-  handleEvent(player: Player, data: any) {
-    if (data.event === 'start') {
-      this.parent.broadcast({
-        event: 'start'
-      });
-
-      this.parent.stateMachine.toState(new GameState(this.parent));
+  handlePacket(player: Player, packet: Packet) {
+    if (packet.name === 'start') {
+      this.owner.stateMachine.toState(new GameState(this.owner));
     }
   }
 

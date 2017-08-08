@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {SocketService} from '../../services/socket.service';
-import {Router} from '@angular/router';
-import {Player} from '../../player';
-import {PlayerComponent} from '../../components/player/player.component';
+import { Component, OnInit } from '@angular/core';
+import { SocketService } from '../../services/socket.service';
+import { Router } from '@angular/router';
+import { PlayerComponent } from '../../components/player/player.component';
+import CardHolder from '../../../../common/card-holder';
+import DayPacket from "../../../../common/packets/day.packet";
+import UpdateTokensPacket from "../../../../common/packets/update-tokens.packet";
 
 @Component({
   selector: 'app-day',
@@ -10,27 +12,24 @@ import {PlayerComponent} from '../../components/player/player.component';
   styleUrls: ['./day.component.scss']
 })
 export class DayComponent implements OnInit {
-  players: Player[];
+  players: CardHolder[];
   playerComponents: PlayerComponent[];
 
   constructor(private socketService: SocketService, private router: Router) {
   }
 
   ngOnInit() {
-    this.players = this.socketService.data.players.map(name => new Player(name));
+    this.players = (this.socketService.lastPacket as DayPacket).players;
     this.playerComponents = [];
 
-    this.socketService.stream.subscribe(data => {
-      if (data.event === 'add-token') {
-        this.playerComponents.find(pC => pC.player.name === data.player).addRole(data.role);
+    this.socketService.stream.subscribe(packet => {
+      if (packet.name === 'update-tokens') {
+        const updateTokensPacket = packet as UpdateTokensPacket;
+        this.playerComponents.find(pC => pC.player.name === updateTokensPacket.player.name).player = updateTokensPacket.player;
       }
 
-      else if (data.event === 'remove-token') {
-        this.playerComponents.find(pC => pC.player.name === data.player).removeRole(data.role);
-      }
-
-      else if (data.event === 'vote') {
-        this.socketService.data = data;
+      else if (packet.name === 'vote') {
+        this.socketService.lastPacket = packet;
         this.router.navigate(['/vote']);
       }
     });

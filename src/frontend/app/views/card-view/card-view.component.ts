@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {SocketService} from '../../services/socket.service';
-import {Router} from '@angular/router';
-import Card from '../../../../common/card';
+import { Component, OnInit } from '@angular/core';
+import { SocketService } from '../../services/socket.service';
+import { Router } from '@angular/router';
+import CardHolder from '../../../../common/card-holder';
+import CardHolderPacket from '../../../../common/packets/card-holder.packet';
+import StringPacket from '../../../../common/packets/string.packet';
 
 @Component({
   selector: 'app-card-view',
@@ -9,25 +11,23 @@ import Card from '../../../../common/card';
   styleUrls: ['./card-view.component.scss']
 })
 export class CardViewComponent implements OnInit {
-  card: Card;
+  card: CardHolder;
 
   constructor(private socketService: SocketService, private router: Router) {}
 
   ngOnInit() {
-    this.socketService.stream.subscribe(data => {
-      if (data.event === 'card') {
-        this.card = data.card as Card;
+    this.socketService.stream.subscribe(packet => {
+      if (packet.name === 'card-holder') {
+        this.card = (packet as CardHolderPacket).cardHolder;
       }
 
-      else if (data.event === 'ready') {
+      else if (packet.name === 'ready') {
         this.router.navigate(['/night']);
       }
     });
   }
 
   ready() {
-    this.socketService.emit({
-      'event': 'ready'
-    });
+    this.socketService.emit(new StringPacket('ready'));
   }
 }

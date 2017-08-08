@@ -6,6 +6,7 @@ class GameDeck {
   index = 0;
 
   constructor(deck: Deck) {
+    // TODO: Shuffle cards.
     // this.cards = shuffle(deck.cards, {copy: true});
     this.cards = deck.cards;
   }

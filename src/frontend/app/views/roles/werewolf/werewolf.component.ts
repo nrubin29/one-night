@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {SocketService} from '../../../services/socket.service';
-import {Router} from '@angular/router';
-import Card from '../../../../../common/card';
+import { Component, OnInit } from '@angular/core';
+import { SocketService } from '../../../services/socket.service';
+import { Router } from '@angular/router';
+import CardHolder from "../../../../../common/card-holder";
+import ActionStartPacket from "../../../../../common/packets/action-start.packet";
 
 @Component({
   selector: 'app-werewolf',
@@ -9,18 +10,19 @@ import Card from '../../../../../common/card';
   styleUrls: ['./werewolf.component.scss']
 })
 export class WerewolfComponent implements OnInit {
-  players: string[];
-  centerCards: Card[];
+  players: CardHolder[];
+  centerCards: CardHolder[];
 
   constructor(private socketService: SocketService, private router: Router) {
   }
 
   ngOnInit() {
-    this.players = this.socketService.data.players.filter(p => p.role === 'Werewolf' && p.name !== this.socketService.name).map(p => p.name);
-    this.centerCards = this.socketService.data.centerCards as Card[];
+    const actionStartPacket = this.socketService.lastPacket as ActionStartPacket;
+    this.players = actionStartPacket.players.map(p => p as CardHolder).filter(p => p.card.name === 'Werewolf' && p.name !== this.socketService.name);
+    this.centerCards = actionStartPacket.centerCards as CardHolder[];
 
-    this.socketService.stream.subscribe(data => {
-      if (data.event === 'action-end') {
+    this.socketService.stream.subscribe(packet => {
+      if (packet.name === 'action-end') {
         this.router.navigate(['/night']);
       }
     });
