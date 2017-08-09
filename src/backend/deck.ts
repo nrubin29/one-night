@@ -6,7 +6,7 @@ class Deck {
 
   constructor(cards: Card[]) {
     this.cards = cards;
-    this.roles = Array.from(new Set<Card>(cards)); // TODO: Make sure this maintains order.
+    this.roles = Array.from(new Set(cards.map(c => c.name))).map(n => this.cards.find(c => c.name === n));
   }
 }
 

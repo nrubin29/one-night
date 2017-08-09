@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import Card from '../../../../common/card';
 import Cards from '../../../../common/cards/cards';
-import { Http } from '@angular/http';
+import {Http} from '@angular/http';
 
 @Component({
   selector: 'app-setup',
@@ -10,7 +10,7 @@ import { Http } from '@angular/http';
 })
 export class SetupComponent implements OnInit {
   roles: Card[];
-  selected: Card[];
+  selected: number[];
   lobbyId: number;
 
   constructor(private http: Http) {
@@ -22,20 +22,20 @@ export class SetupComponent implements OnInit {
   }
 
   submit() {
-    this.http.post('/api/lobby/create', {cards: this.selected}).subscribe(data => this.lobbyId = data.json().id);
+    this.http.post('/api/lobby/create', {cards: this.selected.map(i => this.roles[i])}).subscribe(data => this.lobbyId = data.json().id);
   }
 
-  select(role: Card) {
-    if (this.isSelected(role)) {
-      this.selected = this.selected.filter(r => r !== role);
+  select(index: number) {
+    if (this.isSelected(index)) {
+      this.selected = this.selected.filter(i => i !== index);
     }
 
     else {
-      this.selected.push(role);
+      this.selected.push(index);
     }
   }
 
-  isSelected(role: Card): boolean {
-    return this.selected.indexOf(role) !== -1;
+  isSelected(index: number): boolean {
+    return this.selected.indexOf(index) !== -1;
   }
 }

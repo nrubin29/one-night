@@ -1,6 +1,8 @@
 import express = require('express');
 import http = require('http');
 import io = require('socket.io');
+import morgan = require('morgan');
+import bodyParser = require('body-parser');
 
 import Player = require('./player');
 import Lobby = require('./lobby');
@@ -9,6 +11,8 @@ import Packet from '../common/packets/packet';
 import Card from '../common/card';
 
 const app = express();
+app.use(morgan('dev'));
+app.use(bodyParser.json());
 app.use(express.static('./dist/frontend'));
 
 const httpSocketServer = http.createServer(app);
@@ -18,7 +22,6 @@ const lobbies: Lobby[] = [];
 let currentId = 1; // TODO: Do this better.
 
 app.post('/api/lobby/create', (req, res) => {
-  console.log(JSON.stringify(req.body));
   const cards = req.body.cards as Card[];
   lobbies.push(new Lobby(currentId, cards, socketServer));
   res.json({id: currentId++});

@@ -2,7 +2,7 @@
 <form (submit)="join()" onsubmit="return false;">
     <div class="element">
         <label for="name">Name</label>
-      <input type="text" name="name" id="name" [(ngModel)]="name">
+        <input type="text" name="name" id="name" [(ngModel)]="name">
     </div>
     <div class="element">
       <label for="id">Lobby ID</label>
@@ -12,6 +12,8 @@
         <input type="submit" value="Join">
     </div>
 </form>
+<br><br>
 <hr>
+<br><br>
 <p>Create a new lobby.</p>
 <input type="button" (click)="create()" value="Set Up">

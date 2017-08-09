@@ -1,7 +1,11 @@
+<p>Select the roles you want to play with.</p>
 <form (submit)="submit()">
-  <ul>
-    <li *ngFor="let role of roles" [class.active]="isSelected(role)" (click)="select(role)">{{role.name}}</li>
-  </ul>
-  <input type="submit" value="Start">
-  <p *ngIf="lobbyId">Lobby created with ID {{lobbyId}}</p>
+    <ul>
+        <li *ngFor="let role of roles; let i = index" [class.active]="isSelected(i)" (click)="select(i)">{{role.name}}
+        </li>
+    </ul>
+    <input type="submit" value="Start">
+    <p *ngIf="lobbyId">Lobby created with ID {{lobbyId}}</p>
 </form>
+<!-- TODO: Show number of players based on number of roles, or show error if less than 3 roles. -->
+<!-- TODO: Allow setting of timers. -->

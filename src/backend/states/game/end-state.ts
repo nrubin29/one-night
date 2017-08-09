@@ -1,6 +1,8 @@
-import { State } from '../../state-machine';
+import {State} from '../../state-machine';
 import Packet from '../../../common/packets/packet';
 import EndPacket from "../../../common/packets/end.packet";
+import Team from '../../../common/team';
+import CardHolder from '../../../common/card-holder';
 import Player = require('../../player');
 import Game = require('../../game');
 import LobbyState = require('../lobby/lobby-state');
@@ -23,19 +25,39 @@ class EndState extends State<Game> {
     const maxVotes = Math.max(...playerVotes.map(pV => pV.votes));
     const killedPlayers = playerVotes.filter(pV => pV.votes === maxVotes);
 
-    // TODO: Calculate winning team.
-
-    const players = [];
+    const players: { player: CardHolder, killed: boolean, votedBy: CardHolder[] }[] = [];
 
     this.owner.players.forEach(p => {
       players.push({
-        player: p.cardHolder,
-        killed: killedPlayers.findIndex(pV => pV.player === p) !== -1,
-        votedBy: this.owner.players.filter(other => other !== p && other.vote === p).map(other => other.cardHolder)
+        player: p.json,
+        killed: maxVotes > 0 && killedPlayers.findIndex(pV => pV.player === p) !== -1,
+        votedBy: this.owner.players.filter(other => other.vote === p).map(other => other.json)
       });
     });
 
-    this.owner.lobby.broadcast(new EndPacket(players));
+    let winner: Team;
+
+    for (let player of players) {
+      if (player.killed && player.player.card.name === 'Werewolf') {
+        winner = 'Villagers';
+        break;
+      }
+    }
+
+    if (!winner) {
+      let onlyVillagers = true;
+
+      for (let player of players) {
+        if (!player.killed && player.player.card.team === 'Werewolves') {
+          onlyVillagers = false;
+          break;
+        }
+      }
+
+      winner = onlyVillagers ? 'Villagers' : 'Werewolves';
+    }
+
+    this.owner.lobby.broadcast(new EndPacket(players, winner));
   }
 
   handlePacket(player: Player, packet: Packet) {

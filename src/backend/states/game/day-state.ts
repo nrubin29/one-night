@@ -1,4 +1,4 @@
-import { State } from '../../state-machine';
+import {State} from '../../state-machine';
 import ToggleTokenPacket from '../../../common/packets/toggle-token.packet';
 import Packet from "../../../common/packets/packet";
 import UpdateTokensPacket from "../../../common/packets/update-tokens.packet";
@@ -9,7 +9,7 @@ import VotingState = require('./voting-state');
 
 class DayState extends State<Game> {
   start() {
-    this.owner.lobby.broadcast(new DayPacket(this.owner.players.map(p => p.cardHolder)));
+    this.owner.lobby.broadcast(new DayPacket(this.owner.players.map(p => p.json)));
 
     setTimeout(() => {
       this.owner.stateMachine.toState(new VotingState(this.owner));
@@ -20,8 +20,8 @@ class DayState extends State<Game> {
     if (packet.name === 'toggle-token') {
       const toggleTokenPacket = packet as ToggleTokenPacket;
       const gamePlayer = this.owner.getGamePlayerByName(toggleTokenPacket.player.name);
-      gamePlayer.cardHolder.toggleToken(toggleTokenPacket.role);
-      this.owner.lobby.broadcast(new UpdateTokensPacket(gamePlayer.cardHolder));
+      gamePlayer.toggleToken(toggleTokenPacket.role);
+      this.owner.lobby.broadcast(new UpdateTokensPacket(gamePlayer.json));
     }
   }
 
