@@ -19,7 +19,7 @@ export class SocketService {
   constructor(private router: Router) {
   }
 
-  connect(gameID: number, name: string): Promise<void> {
+  connect(gameID: number): Promise<void> {
     this.name = name;
 
     return new Promise<void>((resolve, reject) => {
@@ -42,7 +42,7 @@ export class SocketService {
           }
         });
 
-        this.emit(new JoinLobbyPacket(gameID, name));
+        this.emit(new JoinLobbyPacket(gameID));
 
         resolve();
       });

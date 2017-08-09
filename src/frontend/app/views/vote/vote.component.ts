@@ -13,12 +13,16 @@ import VoteForPacket from '../../../../common/packets/vote-for.packet';
 export class VoteComponent implements OnInit {
   players: CardHolder[];
   selected: CardHolder;
+  time: number;
 
   constructor(private socketService: SocketService, private router: Router) {
   }
 
   ngOnInit() {
-    this.players = (this.socketService.lastPacket as VotePacket).players;
+    const votePacket = this.socketService.lastPacket as VotePacket;
+    this.players = votePacket.players;
+    this.time = votePacket.time;
+
     this.socketService.stream.subscribe(packet => {
       if (packet.name === 'end') {
         this.socketService.lastPacket = packet;

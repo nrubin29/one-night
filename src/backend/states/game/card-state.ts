@@ -1,5 +1,5 @@
-import {State} from '../../state-machine';
-import Packet from "../../../common/packets/packet";
+import { State } from '../../state-machine';
+import Packet from '../../../common/packets/packet';
 import CardHolderPacket from '../../../common/packets/card-holder.packet';
 import CardHolder from '../../../common/card-holder';
 import Player = require('../../player');

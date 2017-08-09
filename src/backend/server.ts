@@ -8,7 +8,9 @@ import Player = require('./player');
 import Lobby = require('./lobby');
 import JoinLobbyPacket from '../common/packets/join-game.packet';
 import Packet from '../common/packets/packet';
-import Card from '../common/card';
+import NamePacket from '../common/packets/name.packet';
+import StringPacket from '../common/packets/string.packet';
+import GameSettings from '../common/game-settings';
 
 const app = express();
 app.use(morgan('dev'));
@@ -22,22 +24,35 @@ const lobbies: Lobby[] = [];
 let currentId = 1; // TODO: Do this better.
 
 app.post('/api/lobby/create', (req, res) => {
-  const cards = req.body.cards as Card[];
-  lobbies.push(new Lobby(currentId, cards, socketServer));
+  const settings = req.body.settings as GameSettings;
+  lobbies.push(new Lobby(currentId, settings, socketServer));
   res.json({id: currentId++});
 });
 
 app.listen(8080, () => {
   httpSocketServer.listen(4000, () => {
     socketServer.on('connection', socket => {
+      let lobby: Lobby;
+
       socket.on('packet', (packet: Packet) => {
         if (packet.name === 'join-lobby') {
-          const joinGamePacket = packet as JoinLobbyPacket;
-          const lobby = lobbies.find(l => l.id === joinGamePacket.id);
+          lobby = lobbies.find(l => l.id === (packet as JoinLobbyPacket).id);
+
+          if (lobby) {
+            socket.emit('packet', new StringPacket('connect'));
+          }
+
+          else {
+            // TODO: Send error message back.
+          }
+        }
+
+        else if (packet.name === 'name') {
           if (lobby) {
             socket.join(`${lobby.id}`);
-            lobby.addPlayer(new Player(socket, joinGamePacket.playerName));
+            lobby.addPlayer(new Player(socket, (packet as NamePacket).playerName));
           }
+
           else {
             // TODO: Send error message back.
           }

@@ -1,4 +1,4 @@
-import {State} from '../../state-machine';
+import { State } from '../../state-machine';
 import ToggleTokenPacket from '../../../common/packets/toggle-token.packet';
 import Packet from "../../../common/packets/packet";
 import UpdateTokensPacket from "../../../common/packets/update-tokens.packet";
@@ -9,11 +9,11 @@ import VotingState = require('./voting-state');
 
 class DayState extends State<Game> {
   start() {
-    this.owner.lobby.broadcast(new DayPacket(this.owner.players.map(p => p.json)));
+    this.owner.lobby.broadcast(new DayPacket(this.owner.players.map(p => p.json), this.owner.lobby.gameSettings.dayTimer));
 
     setTimeout(() => {
       this.owner.stateMachine.toState(new VotingState(this.owner));
-    }, 10 * 1000);
+    }, this.owner.lobby.gameSettings.dayTimer * 1000);
   }
 
   handlePacket(player: Player, packet: Packet) {

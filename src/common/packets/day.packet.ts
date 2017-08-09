@@ -1,8 +1,8 @@
 import Packet from './packet';
-import CardHolder from "../card-holder";
+import CardHolder from '../card-holder';
 
 class DayPacket extends Packet {
-  constructor(public players: CardHolder[]) {
+  constructor(public players: CardHolder[], public time: number) {
     super('day');
   }
 }

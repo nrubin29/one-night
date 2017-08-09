@@ -2,27 +2,22 @@ import { StateMachine } from './state-machine';
 import Packet from '../common/packets/packet';
 import JoinPacket from '../common/packets/join.packet';
 import RolesPacket from '../common/packets/roles.packet';
-import Card from '../common/card';
+import GameSettings from '../common/game-settings';
 import Deck = require('./deck');
 import Player = require('./player');
 import LobbyState = require('./states/lobby/lobby-state');
 
 class Lobby {
-  id: number;
-  private server: SocketIO.Server;
   stateMachine: StateMachine<Lobby>;
 
   players: Player[];
   deck: Deck;
 
-  constructor(id: number, cards: Card[], server: SocketIO.Server) {
-    this.id = id;
-    this.server = server;
-    this.stateMachine = new StateMachine<Lobby>();
-
+  constructor(public id: number, public gameSettings: GameSettings, private server: SocketIO.Server) {
     this.players = [];
-    this.deck = new Deck(cards);
+    this.deck = new Deck(gameSettings.cards);
 
+    this.stateMachine = new StateMachine<Lobby>();
     this.stateMachine.toState(new LobbyState(this));
   }
 

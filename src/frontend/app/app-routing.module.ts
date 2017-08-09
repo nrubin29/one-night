@@ -13,18 +13,25 @@ import { MinionComponent } from './views/roles/minion/minion.component';
 import { ApprenticeSeerComponent } from './views/roles/apprentice-seer/apprentice-seer.component';
 import { MasonComponent } from './views/roles/mason/mason.component';
 import { SetupComponent } from './views/setup/setup.component';
+import { JoinComponent } from './views/join/join.component';
+import { RoleComponent } from './views/role/role.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'setup', component: SetupComponent},
+  {path: 'join', component: JoinComponent, canActivate: [SocketGuard]},
   {path: 'lobby', component: LobbyComponent, canActivate: [SocketGuard]},
   {path: 'card', component: CardViewComponent, canActivate: [SocketGuard]},
   {path: 'night', component: NightComponent, canActivate: [SocketGuard]},
-  {path: 'werewolf', component: WerewolfComponent, canActivate: [SocketGuard]}, // TODO: Sub-router for roles.
-  {path: 'minion', component: MinionComponent, canActivate: [SocketGuard]},
-  {path: 'mason', component: MasonComponent, canActivate: [SocketGuard]},
-  {path: 'apprentice-seer', component: ApprenticeSeerComponent, canActivate: [SocketGuard]},
+  {
+    path: 'role', component: RoleComponent, canActivate: [SocketGuard], children: [
+    {path: 'werewolf', component: WerewolfComponent},
+    {path: 'minion', component: MinionComponent},
+    {path: 'mason', component: MasonComponent},
+    {path: 'apprentice-seer', component: ApprenticeSeerComponent},
+  ]
+  },
   {path: 'day', component: DayComponent, canActivate: [SocketGuard]},
   {path: 'vote', component: VoteComponent, canActivate: [SocketGuard]},
   {path: 'end', component: EndComponent, canActivate: [SocketGuard]},

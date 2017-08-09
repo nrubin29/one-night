@@ -1,12 +1,8 @@
-<p>Enter your name and lobby ID to join.</p>
+<p>Enter a lobby ID to join.</p>
 <form (submit)="join()" onsubmit="return false;">
     <div class="element">
-        <label for="name">Name</label>
-        <input type="text" name="name" id="name" [(ngModel)]="name">
-    </div>
-    <div class="element">
       <label for="id">Lobby ID</label>
-        <input type="number" name="id" id="id" [(ngModel)]="id">
+      <input type="number" name="id" id="id" [(ngModel)]="id">
     </div>
     <div class="element">
         <input type="submit" value="Join">

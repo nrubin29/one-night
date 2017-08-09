@@ -3,7 +3,7 @@ import Card from '../card';
 import CardHolder from "../card-holder";
 
 class ActionStartPacket extends Packet {
-  constructor(public role: Card, public players: CardHolder[], public centerCards: CardHolder[]) {
+  constructor(public role: Card, public players: CardHolder[], public centerCards: CardHolder[], public time: number) {
     super('action-start');
   }
 }

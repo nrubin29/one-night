@@ -1,8 +1,8 @@
 import Packet from './packet';
 
 class StringPacket extends Packet {
-  constructor(public str: string) {
-    super(str);
+  constructor(public name: string) {
+    super(name);
   }
 }
 

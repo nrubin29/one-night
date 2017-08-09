@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import CardHolder from '../../../../../common/card-holder';
-import ActionStartPacket from '../../../../../common/packets/action-start.packet';
-import { Router } from '@angular/router';
-import { SocketService } from '../../../services/socket.service';
+import { RoleComponent } from '../../role/role.component';
 
 @Component({
   selector: 'app-minion',
@@ -12,17 +10,10 @@ import { SocketService } from '../../../services/socket.service';
 export class MinionComponent implements OnInit {
   players: CardHolder[];
 
-  constructor(private socketService: SocketService, private router: Router) {
+  constructor(private roleComponent: RoleComponent) {
   }
 
   ngOnInit() {
-    const actionStartPacket = this.socketService.lastPacket as ActionStartPacket;
-    this.players = actionStartPacket.players.map(p => p as CardHolder).filter(p => p.card.name === 'Werewolf');
-
-    this.socketService.stream.subscribe(packet => {
-      if (packet.name === 'action-end') {
-        this.router.navigate(['/night']);
-      }
-    });
+    this.players = this.roleComponent.packet.players.map(p => p as CardHolder).filter(p => p.card.name === 'Werewolf');
   }
 }

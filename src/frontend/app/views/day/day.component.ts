@@ -3,8 +3,8 @@ import { SocketService } from '../../services/socket.service';
 import { Router } from '@angular/router';
 import { PlayerComponent } from '../../components/player/player.component';
 import CardHolder from '../../../../common/card-holder';
-import DayPacket from "../../../../common/packets/day.packet";
-import UpdateTokensPacket from "../../../../common/packets/update-tokens.packet";
+import DayPacket from '../../../../common/packets/day.packet';
+import UpdateTokensPacket from '../../../../common/packets/update-tokens.packet';
 
 @Component({
   selector: 'app-day',
@@ -14,12 +14,15 @@ import UpdateTokensPacket from "../../../../common/packets/update-tokens.packet"
 export class DayComponent implements OnInit {
   players: CardHolder[];
   playerComponents: PlayerComponent[];
+  time: number;
 
   constructor(private socketService: SocketService, private router: Router) {
   }
 
   ngOnInit() {
-    this.players = (this.socketService.lastPacket as DayPacket).players;
+    const dayPacket = this.socketService.lastPacket as DayPacket;
+    this.players = dayPacket.players;
+    this.time = dayPacket.time;
     this.playerComponents = [];
 
     this.socketService.stream.subscribe(packet => {

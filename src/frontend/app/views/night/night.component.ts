@@ -17,7 +17,7 @@ export class NightComponent implements OnInit {
     this.socketService.stream.subscribe(packet => {
       if (packet.name === 'action-start') {
         this.socketService.lastPacket = packet;
-        this.router.navigate(['/' + (packet as ActionStartPacket).role.name.toLowerCase().replace(' ', '-')]);
+        this.router.navigate(['/role', (packet as ActionStartPacket).role.name.toLowerCase().replace(' ', '-')]);
       }
 
       else if (packet.name === 'day') {

@@ -19,6 +19,7 @@ export class CardViewComponent implements OnInit {
     this.socketService.stream.subscribe(packet => {
       if (packet.name === 'card-holder') {
         this.card = (packet as CardHolderPacket).cardHolder;
+        console.log(JSON.stringify(this.card));
       }
 
       else if (packet.name === 'ready') {

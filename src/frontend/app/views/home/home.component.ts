@@ -8,17 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  @Input() name: string;
   @Input() id: number;
 
   constructor(private socketService: SocketService, private router: Router) {}
 
   join() {
-    this.socketService.connect(this.id, this.name).then(() => {
+    this.socketService.connect(this.id).then(() => {
       this.socketService.stream.subscribe(packet => {
-        if (packet.name === 'join') {
-          this.socketService.lastPacket = packet;
-          this.router.navigate(['/lobby']);
+        if (packet.name === 'connect') {
+          this.router.navigate(['/join']);
         }
       });
     });
