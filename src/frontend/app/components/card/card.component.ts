@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CardListener } from './card-listener';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import CardHolder from '../../../../common/card-holder';
 
 @Component({
@@ -9,19 +8,22 @@ import CardHolder from '../../../../common/card-holder';
 })
 export class CardComponent implements OnInit {
   @Input() card: CardHolder;
-  @Input() listener?: CardListener;
-  @Input() index?: number;
+  @Input() canFlip?: boolean;
+  @Output() flipped?: EventEmitter<void> = new EventEmitter<void>();
   visible = false;
 
   ngOnInit() {
+    if (this.canFlip === undefined) {
+      this.canFlip = true;
+    }
   }
 
   flip() {
-    if (!this.listener || this.listener.canFlip(this.index)) {
+    if (this.canFlip) {
       this.visible = !this.visible;
 
-      if (this.listener) {
-        this.listener.flipped(this.index);
+      if (this.flipped) {
+        this.flipped.emit();
       }
     }
   }
