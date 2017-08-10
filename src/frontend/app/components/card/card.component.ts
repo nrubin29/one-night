@@ -7,10 +7,10 @@ import CardHolder from '../../../../common/card-holder';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
-  @Input() card: CardHolder;
+  @Input() cardHolder: CardHolder;
   @Input() canFlip?: boolean;
   @Output() flipped?: EventEmitter<void> = new EventEmitter<void>();
-  visible = false;
+  @Input() visible?: boolean;
 
   ngOnInit() {
     if (this.canFlip === undefined) {

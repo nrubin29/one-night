@@ -15,6 +15,9 @@ import { MasonComponent } from './views/roles/mason/mason.component';
 import { SetupComponent } from './views/setup/setup.component';
 import { JoinComponent } from './views/join/join.component';
 import { RoleComponent } from './views/role/role.component';
+import { RobberComponent } from './views/roles/robber/robber.component';
+import { TroublemakerComponent } from "app/views/roles/troublemaker/troublemaker.component";
+import { InsomniacComponent } from './views/roles/insomniac/insomniac.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -25,12 +28,16 @@ const routes: Routes = [
   {path: 'card', component: CardViewComponent, canActivate: [SocketGuard]},
   {path: 'night', component: NightComponent, canActivate: [SocketGuard]},
   {
-    path: 'role', component: RoleComponent, canActivate: [SocketGuard], children: [
-    {path: 'werewolf', component: WerewolfComponent},
-    {path: 'minion', component: MinionComponent},
-    {path: 'mason', component: MasonComponent},
-    {path: 'apprentice-seer', component: ApprenticeSeerComponent},
-  ]
+    path: 'role', component: RoleComponent, canActivate: [SocketGuard], children:
+    [
+      {path: 'werewolf', component: WerewolfComponent},
+      {path: 'minion', component: MinionComponent},
+      {path: 'mason', component: MasonComponent},
+      {path: 'apprentice-seer', component: ApprenticeSeerComponent},
+      {path: 'robber', component: RobberComponent},
+      {path: 'troublemaker', component: TroublemakerComponent},
+      {path: 'insomniac', component: InsomniacComponent},
+    ]
   },
   {path: 'day', component: DayComponent, canActivate: [SocketGuard]},
   {path: 'vote', component: VoteComponent, canActivate: [SocketGuard]},

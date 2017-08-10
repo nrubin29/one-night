@@ -1,0 +1,4 @@
+<p>You may pick a player to swap cards with.</p>
+<app-select-players [players]="players" [count]="1" [lockSelection]="true"
+                    (selected)="select($event)"></app-select-players>
+<app-card *ngIf="player" [cardHolder]="player" [visible]="true"></app-card>

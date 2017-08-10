@@ -28,6 +28,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { CountdownComponent } from './components/countdown/countdown.component';
 import { JoinComponent } from './views/join/join.component';
 import { RoleComponent } from './views/role/role.component';
+import { RobberComponent } from './views/roles/robber/robber.component';
+import { SelectPlayersComponent } from './components/select-players/select-players.component';
+import { TroublemakerComponent } from './views/roles/troublemaker/troublemaker.component';
+import { InsomniacComponent } from './views/roles/insomniac/insomniac.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +56,11 @@ import { RoleComponent } from './views/role/role.component';
     HeaderComponent,
     CountdownComponent,
     JoinComponent,
-    RoleComponent
+    RoleComponent,
+    RobberComponent,
+    SelectPlayersComponent,
+    TroublemakerComponent,
+    InsomniacComponent
   ],
   imports: [
     BrowserModule,

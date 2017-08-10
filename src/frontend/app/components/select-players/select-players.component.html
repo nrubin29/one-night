@@ -1,0 +1,6 @@
+<ul>
+  <li *ngFor="let player of players; let i = index" [class.active]="isSelected(i)" (click)="select(i)">{{player.name}}
+    <span
+      *ngFor="let role of player.tokens" class="badge">{{role.name}}</span></li>
+  <li [class.active]="isSelected(null)" (click)="select(null)">Abstain</li>
+</ul>

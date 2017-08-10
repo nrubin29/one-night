@@ -3,6 +3,9 @@ import Minion from './minion';
 import Mason from './mason';
 import ApprenticeSeer from './apprentice-seer';
 import Villager from './villager';
+import Robber from './robber';
+import Troublemaker from './troublemaker';
+import Insomniac from './insomniac';
 import Card from '../card';
 
 class Cards {
@@ -12,7 +15,10 @@ class Cards {
       Minion,
       Mason,
       ApprenticeSeer,
-      Villager
+      Robber,
+      Troublemaker,
+      Villager,
+      Insomniac
     ];
   }
 
@@ -24,9 +30,12 @@ class Cards {
       Mason,
       Mason,
       ApprenticeSeer,
+      Robber,
+      Troublemaker,
       Villager,
       Villager,
-      Villager
+      Villager,
+      Insomniac
     ];
   }
 }

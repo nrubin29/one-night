@@ -12,7 +12,6 @@ import VoteForPacket from '../../../../common/packets/vote-for.packet';
 })
 export class VoteComponent implements OnInit {
   players: CardHolder[];
-  selected: CardHolder;
   time: number;
 
   constructor(private socketService: SocketService, private router: Router) {
@@ -31,8 +30,7 @@ export class VoteComponent implements OnInit {
     });
   }
 
-  tap(player: CardHolder) {
-    this.selected = player;
-    this.socketService.emit(new VoteForPacket(player));
+  select(selected: CardHolder[]) {
+    this.socketService.emit(new VoteForPacket(selected.length > 0 ? selected[0] : null));
   }
 }

@@ -6,6 +6,7 @@ import { State } from '../../state-machine';
 import ActionStartPacket from '../../../common/packets/action-start.packet';
 import StringPacket from '../../../common/packets/string.packet';
 import Packet from '../../../common/packets/packet';
+import SwapPacket from '../../../common/packets/swap.packet';
 
 class NightState extends State<Game> {
   start() {
@@ -14,7 +15,7 @@ class NightState extends State<Game> {
     async.eachSeries(this.owner.lobby.deck.roles.filter(role => role.hasNightAction), (role, done) => {
       const packet = new ActionStartPacket(role, this.owner.players.map(p => p.json), this.owner.centerCards, this.owner.lobby.gameSettings.roleTimer);
 
-      this.owner.players.filter(p => p.card.name === role.name).forEach(p => {
+      this.owner.players.filter(p => p.originalCard.name === role.name).forEach(p => {
         p.player.emit(packet);
       });
 
@@ -31,7 +32,15 @@ class NightState extends State<Game> {
   }
 
   handlePacket(player: Player, packet: Packet) {
-    // TODO: Handle the player responses.
+    if (packet.name === 'swap') {
+      const swapPacket = (packet as SwapPacket);
+      const p1 = swapPacket.p1 ? this.owner.getGamePlayerByName(swapPacket.p1.name) : this.owner.getGamePlayer(player);
+      const p2 = swapPacket.p2 ? this.owner.getGamePlayerByName(swapPacket.p2.name) : this.owner.getGamePlayer(player);
+
+      const tempCard = p1.card;
+      p1.card = p2.card;
+      p2.card = tempCard;
+    }
   }
 
   end() {

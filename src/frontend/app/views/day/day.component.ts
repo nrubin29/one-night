@@ -12,6 +12,7 @@ import UpdateTokensPacket from '../../../../common/packets/update-tokens.packet'
   styleUrls: ['./day.component.scss']
 })
 export class DayComponent implements OnInit {
+  // TODO: Display center cards so that chips can be put on them.
   players: CardHolder[];
   playerComponents: PlayerComponent[];
   time: number;

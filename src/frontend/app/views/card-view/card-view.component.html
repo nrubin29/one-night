@@ -1,5 +1,5 @@
 <p>Look at your card, then tap Ready to begin.</p>
 <div *ngIf="card">
-  <app-card [card]="card"></app-card>
+  <app-card [cardHolder]="card"></app-card>
   <input type="button" (click)="ready()" value="Ready">
 </div>

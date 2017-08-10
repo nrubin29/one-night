@@ -10,14 +10,12 @@ import { Router } from '@angular/router';
 })
 export class RoleComponent implements OnInit {
   packet: ActionStartPacket;
-  playerName: string;
 
   constructor(private socketService: SocketService, private router: Router) {
   }
 
   ngOnInit() {
     this.packet = this.socketService.lastPacket as ActionStartPacket;
-    this.playerName = this.socketService.name;
 
     this.socketService.stream.subscribe(packet => {
       if (packet.name === 'action-end') {

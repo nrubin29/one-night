@@ -1,0 +1,3 @@
+<p>You may pick two players whose cards will be swapped.</p>
+<app-select-players [players]="players" [count]="2" [lockSelection]="selected.length >= 2"
+                    (selected)="select($event)"></app-select-players>

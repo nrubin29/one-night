@@ -23,7 +23,7 @@ export class SocketService {
     this.name = name;
 
     return new Promise<void>((resolve, reject) => {
-      this.socket = io('http://localhost:4000');
+      this.socket = io('http://166.17.217.33:4000'); // TODO: Put this back to localhost.
       this.socket.on('disconnect', () => {
         this.router.navigate(['/home']);
       });

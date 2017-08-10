@@ -1,7 +1,3 @@
 <app-countdown [time]="time"></app-countdown>
 <p>Vote for who you want to kill.</p>
-<ul>
-  <li *ngFor="let player of players" [class.active]="player === selected" (click)="tap(player)">{{player.name}} <span
-    *ngFor="let role of player.tokens" class="badge">{{role.name}}</span></li>
-  <li [class.active]="selected === null" (click)="tap(null)">Abstain</li>
-</ul>
+<app-select-players [players]="players" [count]="1" (selected)="select($event)"></app-select-players>

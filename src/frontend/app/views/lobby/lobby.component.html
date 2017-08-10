@@ -1,5 +1,7 @@
+<!-- TODO: Display lobby number. -->
 <p>Players:</p>
 <ul>
-    <li *ngFor="let player of players">{{player}}</li>
+  <li *ngFor="let player of players">{{player}}</li>
 </ul>
 <input type="button" (click)="start()" value="Start">
+<!-- TODO: Disable start until enough people have joined. -->

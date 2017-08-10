@@ -1,14 +1,15 @@
 import Card from '../common/card';
 import Deck = require('./deck');
+import shuffle = require('shuffle-array');
 
 class GameDeck {
   cards: Card[];
   index = 0;
 
   constructor(deck: Deck) {
-    // TODO: Shuffle cards.
-    // this.cards = shuffle(deck.cards, {copy: true});
-    this.cards = deck.cards;
+    // TODO: Turn off card shuffling for now.
+    this.cards = shuffle(deck.cards, {copy: true});
+    // this.cards = deck.cards;
   }
 
   dealCard(): Card {
