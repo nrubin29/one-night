@@ -2,12 +2,18 @@ $light-gray: #f0f0f0;
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
 
+//@font-face {
+//  font-family: "KabelBook";
+//  src: url("/assets/KabelBook.ttf");
+//}
+
 * {
   margin: 0;
   padding: 0;
   outline: none;
   text-decoration: none;
 
+  //font-family: 'KabelBook', serif;
   font-family: 'Roboto', serif;
   font-weight: 300;
 }

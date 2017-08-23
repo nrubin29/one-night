@@ -3,9 +3,9 @@ import Packet from '../../../common/packets/packet';
 import EndPacket from "../../../common/packets/end.packet";
 import Team from '../../../common/team';
 import CardHolder from '../../../common/card-holder';
+import {LobbyState} from '../lobby/lobby-state';
 import Player = require('../../player');
 import Game = require('../../game');
-import LobbyState = require('../lobby/lobby-state');
 
 class EndState extends State<Game> {
   start() {
@@ -29,9 +29,9 @@ class EndState extends State<Game> {
 
     this.owner.players.forEach(p => {
       players.push({
-        player: p.json,
+        player: p.serialize(),
         killed: maxVotes > 0 && killedPlayers.findIndex(pV => pV.player === p) !== -1,
-        votedBy: this.owner.players.filter(other => other.vote === p).map(other => other.json)
+        votedBy: this.owner.players.filter(other => other.vote === p).map(other => other.serialize())
       });
     });
 

@@ -3,6 +3,9 @@
   <ul>
     <li *ngFor="let role of roles; let i = index" [class.active]="isSelected(i)" (click)="select(i)">{{role.name}}</li>
   </ul>
+    <p *ngIf="selected.length < 4">Please select at least 4 roles.</p>
+    <p *ngIf="selected.length >= 4">Your game will have {{selected.length - 3}} {{'player'|pluralize:selected.length -
+        3}}.</p>
   <div class="element">
     <label for="roleTimer">Role Timer</label>
     <input type="number" name="roleTimer" id="roleTimer" [(ngModel)]="gameSettings.roleTimer">
@@ -15,6 +18,5 @@
     <label for="voteTimer">Vote Timer</label>
     <input type="number" name="voteTimer" id="voteTimer" [(ngModel)]="gameSettings.voteTimer">
   </div>
-  <input type="submit" value="Create Lobby">
+    <input type="submit" value="Create Lobby" [disabled]="selected.length < 4">
 </form>
-<!-- TODO: Show number of players based on number of roles, or show error if less than 3 roles. -->

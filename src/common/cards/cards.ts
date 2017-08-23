@@ -1,6 +1,7 @@
 import Werewolf from './werewolf';
 import Minion from './minion';
 import Mason from './mason';
+import Seer from './seer';
 import ApprenticeSeer from './apprentice-seer';
 import Villager from './villager';
 import Robber from './robber';
@@ -14,6 +15,7 @@ class Cards {
       Werewolf,
       Minion,
       Mason,
+      Seer,
       ApprenticeSeer,
       Robber,
       Troublemaker,
@@ -29,6 +31,7 @@ class Cards {
       Minion,
       Mason,
       Mason,
+      Seer,
       ApprenticeSeer,
       Robber,
       Troublemaker,

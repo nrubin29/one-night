@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import Card from '../../../../common/card';
-import { SocketService } from '../../services/socket.service';
-import { DayComponent } from '../../views/day/day.component';
+import {SocketService} from '../../services/socket.service';
+import {DayComponent} from '../../views/day/day.component';
 import CardHolder from '../../../../common/card-holder';
 import ToggleTokenPacket from '../../../../common/packets/toggle-token.packet';
 
@@ -37,7 +37,6 @@ export class PlayerComponent implements OnInit {
 
   tapRole(role: Card) {
     this.tapped = false;
-
     this.socketService.emit(new ToggleTokenPacket(this.player, role));
   }
 }

@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as io from 'socket.io-client';
-import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {Router} from '@angular/router';
 import Card from '../../../common/card';
 import Packet from '../../../common/packets/packet';
 import RolesPacket from '../../../common/packets/roles.packet';
 import JoinLobbyPacket from '../../../common/packets/join-game.packet';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class SocketService {
@@ -23,7 +24,7 @@ export class SocketService {
     this.name = name;
 
     return new Promise<void>((resolve, reject) => {
-      this.socket = io('http://166.17.217.33:4000'); // TODO: Put this back to localhost.
+      this.socket = io(location.protocol + '//' + location.hostname + environment.socketSuffix);
       this.socket.on('disconnect', () => {
         this.router.navigate(['/home']);
       });

@@ -1,4 +1,4 @@
-import { State } from '../../state-machine';
+import {State} from '../../state-machine';
 import Packet from '../../../common/packets/packet';
 import CardHolderPacket from '../../../common/packets/card-holder.packet';
 import CardHolder from '../../../common/card-holder';
@@ -15,7 +15,7 @@ class CardState extends State<Game> {
     this.owner.players.forEach(p => {
       p.card = this.owner.deck.dealCard();
       p.originalCard = p.card;
-      p.player.emit(new CardHolderPacket(p.json));
+      p.player.emit(new CardHolderPacket(p.serialize()));
     });
 
     this.owner.centerCards = [

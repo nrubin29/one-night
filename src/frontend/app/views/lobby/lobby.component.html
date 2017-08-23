@@ -1,7 +1,7 @@
-<!-- TODO: Display lobby number. -->
+<p>Lobby ID: {{lobbyId}}</p>
+<p>Waiting for exactly {{target}} {{'player'|pluralize:target}}</p>
 <p>Players:</p>
 <ul>
   <li *ngFor="let player of players">{{player}}</li>
 </ul>
-<input type="button" (click)="start()" value="Start">
-<!-- TODO: Disable start until enough people have joined. -->
+<input type="button" (click)="start()" value="Start" [disabled]="players.length !== target">

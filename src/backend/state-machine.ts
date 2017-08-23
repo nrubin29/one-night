@@ -6,7 +6,6 @@ export abstract class State<T> {
   }
 
   abstract start();
-
   abstract handlePacket(player: Player, packet: Packet);
   abstract end();
 }

@@ -22,6 +22,10 @@ class CardHolder {
       this.tokens.push(role);
     }
   }
+
+  serialize?(): CardHolder {
+    return this;
+  }
 }
 
 export default CardHolder;

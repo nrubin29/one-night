@@ -8,7 +8,7 @@ class GamePlayer extends CardHolder {
     super(player.name);
   }
 
-  get json(): CardHolder {
+  serialize(): CardHolder {
     return {
       name: this.name,
       card: this.card,

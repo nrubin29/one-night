@@ -1,11 +1,11 @@
-import { StateMachine } from './state-machine';
+import {StateMachine} from './state-machine';
 import Packet from '../common/packets/packet';
 import JoinPacket from '../common/packets/join.packet';
 import RolesPacket from '../common/packets/roles.packet';
 import GameSettings from '../common/game-settings';
+import {LobbyState} from './states/lobby/lobby-state';
 import Deck = require('./deck');
 import Player = require('./player');
-import LobbyState = require('./states/lobby/lobby-state');
 
 class Lobby {
   stateMachine: StateMachine<Lobby>;
@@ -29,7 +29,6 @@ class Lobby {
     this.players.push(player);
 
     player.socket.on('disconnect', () => {
-      // TODO: Use something better than filter here...maybe
       this.players = this.players.filter(p => p !== player);
     });
 
@@ -39,7 +38,7 @@ class Lobby {
     });
 
     player.emit(new RolesPacket(this.deck.roles));
-    this.broadcast(new JoinPacket(this.players.map(p => p.name)));
+    this.broadcast(new JoinPacket(this.id, this.players.map(p => p.name), this.deck.cards.length - 3));
   }
 }
 

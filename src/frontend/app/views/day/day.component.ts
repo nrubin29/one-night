@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { SocketService } from '../../services/socket.service';
-import { Router } from '@angular/router';
-import { PlayerComponent } from '../../components/player/player.component';
+import {Component, OnInit} from '@angular/core';
+import {SocketService} from '../../services/socket.service';
+import {Router} from '@angular/router';
+import {PlayerComponent} from '../../components/player/player.component';
 import CardHolder from '../../../../common/card-holder';
 import DayPacket from '../../../../common/packets/day.packet';
 import UpdateTokensPacket from '../../../../common/packets/update-tokens.packet';
@@ -12,7 +12,6 @@ import UpdateTokensPacket from '../../../../common/packets/update-tokens.packet'
   styleUrls: ['./day.component.scss']
 })
 export class DayComponent implements OnInit {
-  // TODO: Display center cards so that chips can be put on them.
   players: CardHolder[];
   playerComponents: PlayerComponent[];
   time: number;

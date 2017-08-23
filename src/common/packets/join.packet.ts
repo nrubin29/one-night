@@ -1,7 +1,7 @@
 import Packet from './packet';
 
 class JoinPacket extends Packet {
-  constructor(public players: string[]) {
+  constructor(public lobbyId: number, public players: string[], public target: number) {
     super('join');
   }
 }

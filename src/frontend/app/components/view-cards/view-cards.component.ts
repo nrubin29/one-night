@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import CardHolder from '../../../../common/card-holder';
 
 @Component({
@@ -9,6 +9,8 @@ import CardHolder from '../../../../common/card-holder';
 export class ViewCardsComponent implements OnInit {
   @Input() cards: CardHolder[];
   @Input() count: number;
+  @Input() disabled: boolean;
+  @Output() didFlip: EventEmitter<number> = new EventEmitter<number>();
   private flippedIndices: number[];
 
   ngOnInit() {
@@ -16,12 +18,13 @@ export class ViewCardsComponent implements OnInit {
   }
 
   canFlip(index: number) {
-    return this.flippedIndices.indexOf(index) === -1 && this.flippedIndices.length < this.count;
+    return !this.disabled && this.flippedIndices.indexOf(index) === -1 && this.flippedIndices.length < this.count;
   }
 
   flipped(index: number) {
     if (this.flippedIndices.indexOf(index) === -1) {
       this.flippedIndices.push(index);
+      this.didFlip.emit(index);
     }
   }
 }

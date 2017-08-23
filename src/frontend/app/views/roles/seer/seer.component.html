@@ -1,0 +1,4 @@
+<app-view-cards [cards]="centerCards" [count]="2" (didFlip)="flipped = 'center'"
+                [disabled]="flipped === 'players'"></app-view-cards>
+<app-view-cards [cards]="players" [count]="1" (didFlip)="flipped = 'players'"
+                [disabled]="flipped === 'center'"></app-view-cards>

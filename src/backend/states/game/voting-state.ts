@@ -1,4 +1,4 @@
-import { State } from '../../state-machine';
+import {State} from '../../state-machine';
 import Packet from '../../../common/packets/packet';
 import VoteForPacket from '../../../common/packets/vote-for.packet';
 import VotePacket from '../../../common/packets/vote.packet';
@@ -8,7 +8,7 @@ import EndState = require('./end-state');
 
 class VotingState extends State<Game> {
   start() {
-    this.owner.lobby.broadcast(new VotePacket(this.owner.players.map(p => p.json), this.owner.lobby.gameSettings.voteTimer));
+    this.owner.lobby.broadcast(new VotePacket(this.owner.players.map(p => p.serialize()), this.owner.lobby.gameSettings.voteTimer));
 
     setTimeout(() => {
       this.owner.stateMachine.toState(new EndState(this.owner));

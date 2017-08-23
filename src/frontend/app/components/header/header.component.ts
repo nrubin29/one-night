@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe(() => {
       if (this.location.path() != '') {
-        this.route = this.title(this.location.path().substr(1));
+        this.route = this.title(this.location.path().substr(this.location.path().lastIndexOf('/') + 1));
       }
     });
   }
