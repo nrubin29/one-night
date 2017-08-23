@@ -1,2 +1,2 @@
-type Team = 'Villagers' | 'Werewolves';
+type Team = 'Villager' | 'Werewolf';
 export default Team;

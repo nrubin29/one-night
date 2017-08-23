@@ -41,6 +41,10 @@ class Cards {
       Insomniac
     ];
   }
+
+  static getImageURL(card: Card) {
+    return `/assets/images/${card.name.toLowerCase().replace(' ', '')}.png`;
+  }
 }
 
 export default Cards;

@@ -1,4 +1,4 @@
-<p>{{winner}} win!</p>
+<p>Team {{winner}} wins!</p>
 <ul>
   <li *ngFor="let pData of playerData">
     <p><span *ngIf="pData.killed" style="color: red">X </span>{{pData.player.name}} <span class="badge">{{pData.player.originalCard.name}}</span>

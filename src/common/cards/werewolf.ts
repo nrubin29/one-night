@@ -2,7 +2,7 @@ import Card from '../card';
 
 class Werewolf extends Card {
   constructor() {
-    super('Werewolf', 'Werewolves', true);
+    super('Werewolf', 'Werewolf', 'Wake, and look for the other werewolves. You win if no werewolves are killed.', true);
   }
 }
 

@@ -1,8 +1,14 @@
 <p>Select the roles you want to play with.</p>
 <form (submit)="submit()">
-  <ul>
-    <li *ngFor="let role of roles; let i = index" [class.active]="isSelected(i)" (click)="select(i)">{{role.name}}</li>
-  </ul>
+    <!--<ul>-->
+    <!--<li *ngFor="let role of roles; let i = index" [class.active]="isSelected(i)" (click)="select(i)">{{role.name}}</li>-->
+    <!--</ul>-->
+    <div class="grid">
+        <div *ngFor="let role of roles; let i = index" class="role" [class.active]="isSelected(i)" (click)="select(i)">
+            <img [src]="getImageUrl(role)" width="75px">
+            <p>{{role.name}}</p>
+        </div>
+    </div>
     <p *ngIf="selected.length < 4">Please select at least 4 roles.</p>
     <p *ngIf="selected.length >= 4">Your game will have {{selected.length - 3}} {{'player'|pluralize:selected.length -
         3}}.</p>

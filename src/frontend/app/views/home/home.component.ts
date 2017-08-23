@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { SocketService } from '../../services/socket.service';
-import { Router } from '@angular/router';
+import {Component, Input} from '@angular/core';
+import {SocketService} from '../../services/socket.service';
+import {Router} from '@angular/router';
+import ErrorPacket from '../../../../common/packets/error.packet';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
   @Input() id: number;
+  error: string;
 
   constructor(private socketService: SocketService, private router: Router) {}
 
@@ -17,6 +19,10 @@ export class HomeComponent {
       this.socketService.stream.subscribe(packet => {
         if (packet.name === 'connect') {
           this.router.navigate(['/join']);
+        }
+
+        else if (packet.name === 'error') {
+          this.error = (packet as ErrorPacket).message;
         }
       });
     });

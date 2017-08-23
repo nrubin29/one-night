@@ -39,7 +39,7 @@ class EndState extends State<Game> {
 
     for (let player of players) {
       if (player.killed && player.player.card.name === 'Werewolf') {
-        winner = 'Villagers';
+        winner = 'Villager';
         break;
       }
     }
@@ -48,13 +48,13 @@ class EndState extends State<Game> {
       let onlyVillagers = true;
 
       for (let player of players) {
-        if (!player.killed && player.player.card.team === 'Werewolves') {
+        if (!player.killed && player.player.card.team === 'Werewolf') {
           onlyVillagers = false;
           break;
         }
       }
 
-      winner = onlyVillagers ? 'Villagers' : 'Werewolves';
+      winner = onlyVillagers ? 'Villager' : 'Werewolf';
     }
 
     this.owner.lobby.broadcast(new EndPacket(players, winner));

@@ -1,5 +1,9 @@
-<div *ngIf="visible">
-  <h1>{{cardHolder.card.name}}</h1>
-  <h2>{{cardHolder.card.team}}</h2>
+<div class="card">
+    <input type="button" (click)="flip()" [value]="cardHolder.name">
+    <div *ngIf="visible">
+        <h1>{{cardHolder.card.name}}</h1>
+        <h3>Team {{cardHolder.card.team}}</h3>
+        <img [src]="imageUrl" width="200px">
+        <p>{{cardHolder.card.description}}</p>
+    </div>
 </div>
-<input type="button" (click)="flip()" [value]="cardHolder.name">

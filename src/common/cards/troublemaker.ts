@@ -2,7 +2,7 @@ import Card from '../card';
 
 class Troublemaker extends Card {
   constructor() {
-    super('Troublemaker', 'Villagers', true);
+    super('Troublemaker', 'Villager', 'Exchange cards between any two other players.', true);
   }
 }
 

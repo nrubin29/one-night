@@ -1,0 +1,11 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.role {
+  min-width: calc(100vw / 4);
+  max-width: calc(100vw / 4);
+  margin: 0.25em;
+}

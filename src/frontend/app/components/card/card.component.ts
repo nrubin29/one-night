@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import CardHolder from '../../../../common/card-holder';
+import Cards from '../../../../common/cards/cards';
 
 @Component({
   selector: 'app-card',
@@ -9,13 +10,16 @@ import CardHolder from '../../../../common/card-holder';
 export class CardComponent implements OnInit {
   @Input() cardHolder: CardHolder;
   @Input() canFlip?: boolean;
-  @Output() flipped?: EventEmitter<void> = new EventEmitter<void>();
   @Input() visible?: boolean;
+  imageUrl: string;
+  @Output() flipped?: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit() {
     if (this.canFlip === undefined) {
       this.canFlip = true;
     }
+
+    this.imageUrl = Cards.getImageURL(this.cardHolder.card);
   }
 
   flip() {

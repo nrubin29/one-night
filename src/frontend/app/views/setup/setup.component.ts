@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import Card from '../../../../common/card';
 import Cards from '../../../../common/cards/cards';
-import { Http } from '@angular/http';
-import { Router } from '@angular/router';
-import { SocketService } from '../../services/socket.service';
+import {Http} from '@angular/http';
+import {Router} from '@angular/router';
+import {SocketService} from '../../services/socket.service';
 import GameSettings from '../../../../common/game-settings';
 
 @Component({
@@ -51,5 +51,9 @@ export class SetupComponent implements OnInit {
 
   isSelected(index: number): boolean {
     return this.selected.indexOf(index) !== -1;
+  }
+
+  getImageUrl(card: Card) {
+    return Cards.getImageURL(card);
   }
 }

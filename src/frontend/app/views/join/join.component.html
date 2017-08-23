@@ -1,4 +1,5 @@
 <p>Enter your name join.</p>
+<p *ngIf="error" class="error">{{error}}</p>
 <form (submit)="join()" onsubmit="return false;">
   <div class="element">
     <label for="name">Name</label>

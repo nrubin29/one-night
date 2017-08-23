@@ -11,6 +11,7 @@ import Packet from '../common/packets/packet';
 import NamePacket from '../common/packets/name.packet';
 import StringPacket from '../common/packets/string.packet';
 import GameSettings from '../common/game-settings';
+import ErrorPacket from '../common/packets/error.packet';
 
 const app = express();
 app.use(morgan('dev'));
@@ -43,7 +44,7 @@ app.listen(8080, () => {
           }
 
           else {
-            // TODO: Send error message back.
+            socket.emit('packet', new ErrorPacket(`No lobby with ID ${(packet as JoinLobbyPacket).id}.`));
           }
         }
 
@@ -54,7 +55,7 @@ app.listen(8080, () => {
           }
 
           else {
-            // TODO: Send error message back.
+            socket.emit('packet', new ErrorPacket(`Attempted to provide name without joining lobby first.`));
           }
         }
       });
