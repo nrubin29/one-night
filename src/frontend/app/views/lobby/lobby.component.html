@@ -2,6 +2,7 @@
 <p>Waiting for exactly {{target}} {{'player'|pluralize:target}}</p>
 <p>Players:</p>
 <ul>
-  <li *ngFor="let player of players">{{player}}</li>
+  <li *ngFor="let player of players">{{player}} <span *ngIf="owner === player" class="badge">Owner</span></li>
 </ul>
-<input type="button" (click)="start()" value="Start" [disabled]="players.length !== target">
+<input type="button" *ngIf="isOwner" (click)="start()" value="Start" [disabled]="players.length !== target">
+<input type="button" *ngIf="isOwner" (click)="settings()" value="Change Settings">

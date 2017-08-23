@@ -4,7 +4,7 @@ class CardHolder {
   originalCard: Card;
   tokens: Card[];
 
-  constructor(public name: string, public card?: Card) {
+  constructor(public name: string, public card?: Card, public owner = false) {
     this.originalCard = card;
     this.tokens = [];
   }

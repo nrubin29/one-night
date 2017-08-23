@@ -61,7 +61,7 @@ class EndState extends State<Game> {
   }
 
   handlePacket(player: Player, packet: Packet) {
-    if (packet.name === 'lobby') {
+    if (packet.name === 'lobby' && player.owner) {
       this.owner.lobby.stateMachine.toState(new LobbyState(this.owner.lobby));
     }
   }

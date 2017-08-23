@@ -14,6 +14,7 @@ export class SocketService {
   stream: Observable<Packet>;
 
   name: string;
+  owner: boolean;
   allRoles: Card[];
   lastPacket: Packet; // Used to store a packet between states.
 
@@ -21,8 +22,6 @@ export class SocketService {
   }
 
   connect(gameID: number): Promise<void> {
-    this.name = name;
-
     return new Promise<void>((resolve, reject) => {
       this.socket = io(location.protocol + '//' + location.hostname + environment.socketSuffix);
       this.socket.on('disconnect', () => {

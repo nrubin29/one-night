@@ -13,9 +13,9 @@ class Lobby {
   players: Player[];
   deck: Deck;
 
-  constructor(public id: number, public gameSettings: GameSettings, private server: SocketIO.Server) {
+  constructor(public id: number, private _gameSettings: GameSettings, private server: SocketIO.Server) {
     this.players = [];
-    this.deck = new Deck(gameSettings.cards);
+    this.deck = new Deck(_gameSettings.cards);
 
     this.stateMachine = new StateMachine<Lobby>();
     this.stateMachine.toState(new LobbyState(this));
@@ -28,6 +28,10 @@ class Lobby {
   addPlayer(player: Player) {
     this.players.push(player);
 
+    if (this.players.length === 1) {
+      player.owner = true;
+    }
+
     player.socket.on('disconnect', () => {
       this.players = this.players.filter(p => p !== player);
     });
@@ -38,7 +42,16 @@ class Lobby {
     });
 
     player.emit(new RolesPacket(this.deck.roles));
-    this.broadcast(new JoinPacket(this.id, this.players.map(p => p.name), this.deck.cards.length - 3));
+    this.broadcast(new JoinPacket(this.id, this.players.map(p => p.name), this.deck.cards.length - 3, this.players.find(p => p.owner).name));
+  }
+
+  get gameSettings(): GameSettings {
+    return this._gameSettings;
+  }
+
+  set gameSettings(newVal: GameSettings) {
+    this._gameSettings = newVal;
+    this.deck = new Deck(this._gameSettings.cards);
   }
 }
 

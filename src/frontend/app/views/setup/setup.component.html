@@ -1,8 +1,5 @@
 <p>Select the roles you want to play with.</p>
 <form (submit)="submit()">
-    <!--<ul>-->
-    <!--<li *ngFor="let role of roles; let i = index" [class.active]="isSelected(i)" (click)="select(i)">{{role.name}}</li>-->
-    <!--</ul>-->
     <div class="grid">
         <div *ngFor="let role of roles; let i = index" class="role" [class.active]="isSelected(i)" (click)="select(i)">
             <img [src]="getImageUrl(role)" width="75px">
@@ -24,5 +21,5 @@
     <label for="voteTimer">Vote Timer</label>
     <input type="number" name="voteTimer" id="voteTimer" [(ngModel)]="gameSettings.voteTimer">
   </div>
-    <input type="submit" value="Create Lobby" [disabled]="selected.length < 4">
+    <input type="submit" [value]="isNew ? 'Create Lobby' : 'Update Lobby'" [disabled]="selected.length < 4">
 </form>

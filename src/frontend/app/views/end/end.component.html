@@ -8,4 +8,4 @@
     </div>
   </li>
 </ul>
-<input type="button" (click)="tap()" value="Lobby">
+<input type="button" *ngIf="owner" (click)="tap()" value="Lobby">

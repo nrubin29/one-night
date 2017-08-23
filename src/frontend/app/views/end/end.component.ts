@@ -14,11 +14,14 @@ import Team from '../../../../common/team';
 export class EndComponent implements OnInit {
   winner: Team;
   playerData: EndData[];
+  owner: boolean;
 
   constructor(private socketService: SocketService, private router: Router) {
   }
 
   ngOnInit() {
+    this.owner = this.socketService.owner;
+
     const endPacket = this.socketService.lastPacket as EndPacket;
     this.winner = endPacket.winner;
     this.playerData = endPacket.players;

@@ -8,6 +8,10 @@ class Deck {
     this.cards = cards;
     this.roles = Array.from(new Set(cards.map(c => c.name))).map(n => this.cards.find(c => c.name === n));
   }
+
+  get target(): number {
+    return this.cards.length - 3;
+  }
 }
 
 export = Deck;

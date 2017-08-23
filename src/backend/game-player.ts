@@ -11,6 +11,7 @@ class GamePlayer extends CardHolder {
   serialize(): CardHolder {
     return {
       name: this.name,
+      owner: this.owner,
       card: this.card,
       originalCard: this.originalCard,
       tokens: this.tokens
