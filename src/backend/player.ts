@@ -1,11 +1,8 @@
-import Packet from '../common/packets/packet';
+import Client = require('./client');
 
-class Player {
+class Player extends Client {
   constructor(public socket: SocketIO.Socket, public name: string, public owner = false) {
-  }
-
-  emit(packet: Packet) {
-    this.socket.emit('packet', packet);
+    super(socket);
   }
 }
 

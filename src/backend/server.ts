@@ -6,7 +6,8 @@ import bodyParser = require('body-parser');
 
 import Player = require('./player');
 import Lobby = require('./lobby');
-import JoinLobbyPacket from '../common/packets/join-game.packet';
+import Client = require('./client');
+import JoinLobbyPacket from '../common/packets/join-lobby.packet';
 import Packet from '../common/packets/packet';
 import NamePacket from '../common/packets/name.packet';
 import StringPacket from '../common/packets/string.packet';
@@ -50,8 +51,17 @@ app.listen(8080, () => {
 
         else if (packet.name === 'name') {
           if (lobby) {
+            const namePacket = packet as NamePacket;
+
             socket.join(`${lobby.id}`);
-            lobby.addPlayer(new Player(socket, (packet as NamePacket).playerName));
+
+            if (namePacket.playerName === 'AUDIO') {
+              lobby.addClient(new Client(socket));
+            }
+
+            else {
+              lobby.addPlayer(new Player(socket, namePacket.playerName));
+            }
           }
 
           else {

@@ -34,6 +34,7 @@ import {TroublemakerComponent} from './views/roles/troublemaker/troublemaker.com
 import {InsomniacComponent} from './views/roles/insomniac/insomniac.component';
 import {SeerComponent} from './views/roles/seer/seer.component';
 import {AudioService} from './services/audio.service';
+import {AudioComponent} from './views/audio/audio.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {AudioService} from './services/audio.service';
     SelectPlayersComponent,
     TroublemakerComponent,
     InsomniacComponent,
-    SeerComponent
+    SeerComponent,
+    AudioComponent
   ],
   imports: [
     BrowserModule,

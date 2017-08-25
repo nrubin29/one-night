@@ -17,11 +17,17 @@ export class JoinComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.socketService.stream.subscribe(packet => {
+    const sub = this.socketService.stream.subscribe(packet => {
       if (packet.name === 'join') {
         this.socketService.name = this.name;
         this.socketService.lastPacket = packet;
         this.router.navigate(['/lobby']);
+      }
+
+      else if (packet.name === 'join-lobby') {
+        this.socketService.lastPacket = packet;
+        this.router.navigate(['/audio']);
+        sub.unsubscribe();
       }
 
       else if (packet.name === 'error') {
@@ -32,5 +38,9 @@ export class JoinComponent implements OnInit {
 
   join() {
     this.socketService.emit(new NamePacket(this.name));
+  }
+
+  joinAudio() {
+    this.socketService.emit(new NamePacket('AUDIO'));
   }
 }

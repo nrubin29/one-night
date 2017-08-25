@@ -19,12 +19,14 @@ import {RobberComponent} from './views/roles/robber/robber.component';
 import {TroublemakerComponent} from "app/views/roles/troublemaker/troublemaker.component";
 import {InsomniacComponent} from './views/roles/insomniac/insomniac.component';
 import {SeerComponent} from './views/roles/seer/seer.component';
+import {AudioComponent} from './views/audio/audio.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'setup', component: SetupComponent},
   {path: 'join', component: JoinComponent, canActivate: [SocketGuard]},
+  {path: 'audio', component: AudioComponent, canActivate: [SocketGuard]},
   {path: 'lobby', component: LobbyComponent, canActivate: [SocketGuard]},
   {path: 'card', component: CardViewComponent, canActivate: [SocketGuard]},
   {path: 'night', component: NightComponent, canActivate: [SocketGuard]},

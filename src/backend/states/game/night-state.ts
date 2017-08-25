@@ -11,18 +11,16 @@ import ActionAnnouncePacket from '../../../common/packets/action-announce.packet
 
 class NightState extends State<Game> {
   start() {
-    this.owner.lobby.broadcast(new StringPacket('ready'));
+    this.owner.lobby.broadcast(new StringPacket('to-night'));
 
     async.eachSeries(this.owner.lobby.deck.roles.filter(role => role.hasNightAction), (role, done) => {
       const announcePacket = new ActionAnnouncePacket(role);
       const startPacket = new ActionStartPacket(role, this.owner.players.map(p => p.serialize()), this.owner.centerCards, this.owner.lobby.gameSettings.roleTimer);
 
-      this.owner.players.forEach(p => {
-        p.player.emit(announcePacket);
+      this.owner.lobby.broadcast(announcePacket);
 
-        if (p.originalCard.name === role.name) {
-          p.player.emit(startPacket);
-        }
+      this.owner.players.filter(p => p.originalCard.name === role.name).forEach(p => {
+        p.player.emit(startPacket);
       });
 
       setTimeout(() => {

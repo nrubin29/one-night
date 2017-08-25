@@ -24,7 +24,7 @@ export class CardViewComponent implements OnInit {
         console.log(JSON.stringify(this.card));
       }
 
-      else if (packet.name === 'ready') {
+      else if (packet.name === 'to-night') {
         this.audioService.playBackground('disco');
         this.router.navigate(['/night']);
       }

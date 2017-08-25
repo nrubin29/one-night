@@ -4,17 +4,21 @@ import JoinPacket from '../common/packets/join.packet';
 import RolesPacket from '../common/packets/roles.packet';
 import GameSettings from '../common/game-settings';
 import {LobbyState} from './states/lobby/lobby-state';
+import JoinLobbyPacket from '../common/packets/join-lobby.packet';
 import Deck = require('./deck');
 import Player = require('./player');
+import Client = require('./client');
 
 class Lobby {
   stateMachine: StateMachine<Lobby>;
 
+  clients: Client[];
   players: Player[];
   deck: Deck;
 
   constructor(public id: number, private _gameSettings: GameSettings, private server: SocketIO.Server) {
     this.players = [];
+    this.clients = [];
     this.deck = new Deck(_gameSettings.cards);
 
     this.stateMachine = new StateMachine<Lobby>();
@@ -43,6 +47,16 @@ class Lobby {
 
     player.emit(new RolesPacket(this.deck.roles));
     this.broadcast(new JoinPacket(this.id, this.players.map(p => p.name), this.deck.cards.length - 3, this.players.find(p => p.owner).name));
+  }
+
+  addClient(client: Client) {
+    this.clients.push(client);
+
+    client.socket.on('disconnect', () => {
+      this.clients = this.clients.filter(c => c !== client);
+    });
+
+    client.emit(new JoinLobbyPacket(this.id));
   }
 
   get gameSettings(): GameSettings {

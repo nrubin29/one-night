@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import Card from '../../../common/card';
 import Packet from '../../../common/packets/packet';
 import RolesPacket from '../../../common/packets/roles.packet';
-import JoinLobbyPacket from '../../../common/packets/join-game.packet';
+import JoinLobbyPacket from '../../../common/packets/join-lobby.packet';
 import {environment} from '../../environments/environment';
 
 @Injectable()
